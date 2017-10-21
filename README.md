@@ -4,8 +4,8 @@ All documents avialable here:
 https://drive.google.com/drive/folders/0B_rgvdJh_MaLajd2Z0xNUjdaazg
 
 Project by:
-Arkadiusz Wierzbicki
-Grzegorz Kois
-Krzysztof Markiewicz
-Konrad Ogniewski
-Szymon Piórkowski
+--*Arkadiusz Wierzbicki
+--*Grzegorz Kois
+--*Krzysztof Markiewicz
+--*Konrad Ogniewski
+--*Szymon Piórkowski
