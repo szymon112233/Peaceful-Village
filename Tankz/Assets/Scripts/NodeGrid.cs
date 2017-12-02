@@ -7,12 +7,16 @@ public class NodeGrid : MonoBehaviour {
     public Vector2Int gridSize = new Vector2Int();
     public float nodeSize = 0.0f;
     public GameObject nodePrefab = null;
+    public GameObject wallPrefab = null;
+    public int numberOfWallsToGenerate = 10;
     public Node[,] nodes = null;
 
 	
 	void Start () {
         GenerateGrid();
-	}
+        GenerateOuterWalls();
+        GenerateRandomWalls(numberOfWallsToGenerate);
+    }
 	
 	void GenerateGrid()
     {
@@ -25,6 +29,50 @@ public class NodeGrid : MonoBehaviour {
                 nodes[j, i] = go.GetComponent<Node>();
             }
         }
-        Debug.Log("Dupa");
     }
+
+    void GenerateOuterWalls()
+    {
+        int i = 0;
+        for (int j = 0; j< gridSize.x; j++)
+        {
+            nodes[j, i].objectOnNode = Instantiate(wallPrefab, nodes[j, i].transform);
+        }
+
+        i = gridSize.y -1;
+        for (int j = 0; j < gridSize.x; j++)
+        {
+            nodes[j, i].objectOnNode = Instantiate(wallPrefab, nodes[j, i].transform);
+        }
+
+        i = 0;
+        for (int j = 0; j < gridSize.y; j++)
+        {
+            if (nodes[i, j].isFree())
+                nodes[i, j].objectOnNode = Instantiate(wallPrefab, nodes[i, j].transform);
+        }
+
+        i = gridSize.x - 1;
+        for (int j = 0; j < gridSize.y; j++)
+        {
+            if (nodes[i, j].isFree())
+                nodes[i, j].objectOnNode = Instantiate(wallPrefab, nodes[i, j].transform);
+        }
+    }
+
+    void GenerateRandomWalls(int count)
+    {
+        while (count > 0)
+        {
+            int randomX = Random.Range(0, gridSize.x);
+            int randomY = Random.Range(0, gridSize.y);
+            if (nodes[randomX, randomY].isFree())
+            {
+                nodes[randomX, randomY].objectOnNode = Instantiate(wallPrefab, nodes[randomX, randomY].transform);
+                count--;
+            }
+                
+        }
+    }
+
 }
