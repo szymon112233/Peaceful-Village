@@ -8,6 +8,7 @@ public class NodeGrid : MonoBehaviour {
     public float nodeSize = 0.0f;
     public GameObject nodePrefab = null;
     public GameObject wallPrefab = null;
+    public GameObject playerPrefab1 = null;
     public int numberOfWallsToGenerate = 10;
     public Node[,] nodes = null;
 
@@ -16,6 +17,7 @@ public class NodeGrid : MonoBehaviour {
         GenerateGrid();
         GenerateOuterWalls();
         GenerateRandomWalls(numberOfWallsToGenerate);
+        GeneratePlayer(playerPrefab1);
     }
 	
 	void GenerateGrid()
@@ -75,4 +77,22 @@ public class NodeGrid : MonoBehaviour {
         }
     }
 
+    void GeneratePlayer(GameObject prefab)
+    {
+        bool isGenerated = false;
+        while (!isGenerated)
+        {
+            int randomX = Random.Range(0, gridSize.x);
+            int randomY = Random.Range(0, gridSize.y);
+            if (nodes[randomX, randomY].isFree())
+            {
+                GameObject player = Instantiate(prefab, nodes[randomX, randomY].transform);
+                PlayerController playerController = player.GetComponent<PlayerController>();
+                playerController.grid = this;
+                nodes[randomX, randomY].objectOnNode = player;
+                playerController.node = nodes[randomX, randomY];
+                isGenerated = true;
+            }
+        }
+    }
 }
