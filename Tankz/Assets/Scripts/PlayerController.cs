@@ -20,16 +20,11 @@ public class PlayerController : MonoBehaviour {
         rigidBody = GetComponent<Rigidbody2D>();
     }
 
-    void Start ()
-    {
-		
-	}
-	
-	void Update ()
+    private void FixedUpdate()
     {
         Vector2 moveVector = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         Move(moveVector);
-	}
+    }
 
     void Move(Direction d)
     {
@@ -72,11 +67,30 @@ public class PlayerController : MonoBehaviour {
     void Move(Vector2 moveVector)
     {
         
-        float speed = grid.nodeSize * Time.deltaTime;
-        float angle = 0;
+        float speed = grid.nodeSize * Time.fixedDeltaTime;
 
+        if (moveVector.x > 0)
+        {
+            transform.rotation = Quaternion.Euler(0, 0, -90);
+            moveVector = new Vector3(1, 0, 0);
+        }
+        else if (moveVector.x < 0)
+        {
+            transform.rotation = Quaternion.Euler(0, 0, 90);
+            moveVector = new Vector3(-1, 0, 0);
+        }
+        else if (moveVector.y > 0)
+        {
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+            moveVector = new Vector3(0, 1, 0);
+        }
+        else if (moveVector.y < 0)
+        {
+            transform.rotation = Quaternion.Euler(0, 0, 180);
+            moveVector = new Vector3(0, -1, 0);
+        }
+            
         rigidBody.MovePosition(rigidBody.position + moveVector * speed);
-        rigidBody.MoveRotation(angle);
 
     }
 }

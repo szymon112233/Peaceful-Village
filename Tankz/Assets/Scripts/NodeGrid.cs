@@ -79,7 +79,7 @@ public class NodeGrid : MonoBehaviour {
 
     void GeneratePlayer(GameObject prefab)
     {
-        GameObject player = Instantiate(prefab);
+        GameObject player = Instantiate(prefab, new Vector3(gridSize.x * nodeSize /2, gridSize.y * nodeSize / 2, 0), new Quaternion());
         PlayerController playerController = player.GetComponent<PlayerController>();
         playerController.grid = this;
         /*bool isGenerated = false;
