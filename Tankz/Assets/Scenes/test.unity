@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311992, g: 0.38074034, b: 0.35872713, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -164,7 +164,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 100
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -220,12 +220,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridSize: {x: 10, y: 10}
-  nodeSize: 32
+  nodeSize: 16
   nodePrefab: {fileID: 1608868066767240, guid: d31b839d04c893c46be246880f00427a, type: 2}
   wallPrefab: {fileID: 1798603701170206, guid: a4f5734ba78a06e4ab7356e755f5258e, type: 2}
   playerPrefab1: {fileID: 1737528639124548, guid: 0d701e54634f1924b8842ef0dff72c75,
     type: 2}
-  numberOfWallsToGenerate: 1
+  numberOfWallsToGenerate: 7
 --- !u!4 &1615443507
 Transform:
   m_ObjectHideFlags: 0
