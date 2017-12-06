@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 3c7012129dc939646941937a7b3c0e4a
-timeCreated: 1512567879
+timeCreated: 1512575995
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -3052,9 +3052,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 256
-        y: 176
-        width: 16
-        height: 16
+        y: 184
+        width: 8
+        height: 8
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -3645,10 +3645,10 @@ TextureImporter:
       name: NES - Battle City JPN - General Sprites_143
       rect:
         serializedVersion: 2
-        x: 288
-        y: 160
-        width: 16
-        height: 16
+        x: 256
+        y: 176
+        width: 8
+        height: 8
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -3667,10 +3667,10 @@ TextureImporter:
       name: NES - Battle City JPN - General Sprites_144
       rect:
         serializedVersion: 2
-        x: 304
-        y: 160
-        width: 16
-        height: 16
+        x: 264
+        y: 176
+        width: 8
+        height: 8
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}

@@ -13,29 +13,22 @@ public class PlayerController : MonoBehaviour {
     public NodeGrid grid;
     public Node node;
 
-	void Start ()
+    Rigidbody2D rigidBody = null;
+
+    private void Awake()
+    {
+        rigidBody = GetComponent<Rigidbody2D>();
+    }
+
+    void Start ()
     {
 		
 	}
 	
 	void Update ()
     {
-		if (Input.GetKeyDown(moveLeft))
-        {
-            Move(Direction.Left);
-        }
-        else if (Input.GetKeyDown(moveRight))
-        {
-            Move(Direction.Right);
-        }
-        else if (Input.GetKeyDown(moveUp))
-        {
-            Move(Direction.Up);
-        }
-        else if (Input.GetKeyDown(moveDown))
-        {
-            Move(Direction.Down);
-        }
+        Vector2 moveVector = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        Move(moveVector);
 	}
 
     void Move(Direction d)
@@ -74,5 +67,16 @@ public class PlayerController : MonoBehaviour {
             gameObject.transform.SetParent(node.transform);
             transform.localPosition = new Vector3();
         }
+    }
+
+    void Move(Vector2 moveVector)
+    {
+        
+        float speed = grid.nodeSize * Time.deltaTime;
+        float angle = 0;
+
+        rigidBody.MovePosition(rigidBody.position + moveVector * speed);
+        rigidBody.MoveRotation(angle);
+
     }
 }

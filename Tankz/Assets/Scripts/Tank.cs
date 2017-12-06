@@ -6,7 +6,10 @@ public class Tank : MonoBehaviour
 {
     Node node;
 
-	void Update ()
+    public Transform bulletPoint = null;
+
+
+    void Update ()
     {
 		
 	}

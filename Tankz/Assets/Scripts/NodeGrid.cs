@@ -79,7 +79,10 @@ public class NodeGrid : MonoBehaviour {
 
     void GeneratePlayer(GameObject prefab)
     {
-        bool isGenerated = false;
+        GameObject player = Instantiate(prefab);
+        PlayerController playerController = player.GetComponent<PlayerController>();
+        playerController.grid = this;
+        /*bool isGenerated = false;
         while (!isGenerated)
         {
             int randomX = Random.Range(0, gridSize.x);
@@ -93,6 +96,6 @@ public class NodeGrid : MonoBehaviour {
                 playerController.node = nodes[randomX, randomY];
                 isGenerated = true;
             }
-        }
+        }*/
     }
 }

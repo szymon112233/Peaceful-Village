@@ -219,13 +219,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6cdcca779206d7f44af011bb9b735be3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridSize: {x: 10, y: 10}
-  nodeSize: 16
+  gridSize: {x: 25, y: 25}
+  nodeSize: 8
   nodePrefab: {fileID: 1608868066767240, guid: d31b839d04c893c46be246880f00427a, type: 2}
   wallPrefab: {fileID: 1798603701170206, guid: a4f5734ba78a06e4ab7356e755f5258e, type: 2}
   playerPrefab1: {fileID: 1737528639124548, guid: 0d701e54634f1924b8842ef0dff72c75,
     type: 2}
-  numberOfWallsToGenerate: 7
+  numberOfWallsToGenerate: 100
 --- !u!4 &1615443507
 Transform:
   m_ObjectHideFlags: 0
@@ -237,7 +237,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1697141887
 GameObject:
@@ -279,5 +279,5 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
