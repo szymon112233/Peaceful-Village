@@ -14,10 +14,12 @@ public class PlayerController : MonoBehaviour {
     public Node node;
 
     Rigidbody2D rigidBody = null;
+    Tank tank = null;
 
     private void Awake()
     {
         rigidBody = GetComponent<Rigidbody2D>();
+        tank = GetComponent<Tank>();
     }
 
     private void FixedUpdate()
@@ -67,7 +69,7 @@ public class PlayerController : MonoBehaviour {
     void Move(Vector2 moveVector)
     {
         
-        float speed = grid.nodeSize * Time.fixedDeltaTime;
+        float speed = tank.speed * Time.fixedDeltaTime;
 
         if (moveVector.x > 0)
         {

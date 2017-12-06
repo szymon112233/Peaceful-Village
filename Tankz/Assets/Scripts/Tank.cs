@@ -8,6 +8,9 @@ public class Tank : MonoBehaviour
 
     public Transform bulletPoint = null;
 
+    [Header("Speed in pixels per second")]
+    public float speed = 16;
+
 
     void Update ()
     {
