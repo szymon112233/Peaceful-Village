@@ -63,15 +63,15 @@ public class PlayerController : MonoBehaviour {
             rotate = Quaternion.AngleAxis(-90, Vector3.forward);
         }
         Vector3 t = node.transform.position;
-        Debug.Log(((int)t.x / 32 + move.x) + "," + ((int)t.y / 32 + move.y));
-        Node destinationNode = grid.nodes[(int)t.x  / 32 + move.x, (int)t.y / 32 + move.y];
+        Debug.Log(((int)t.x / grid.nodeSize + move.x) + "," + ((int)t.y / grid.nodeSize + move.y));
+        Node destinationNode = grid.nodes[(int)t.x  / (int)grid.nodeSize + move.x, (int)t.y / (int)grid.nodeSize + move.y];
+        transform.rotation = rotate;
         if (destinationNode.isFree())
         {
             node.objectOnNode = null;
             node = destinationNode;
             node.objectOnNode = gameObject;
             gameObject.transform.SetParent(node.transform);
-            transform.rotation = rotate;
             transform.localPosition = new Vector3();
         }
     }
