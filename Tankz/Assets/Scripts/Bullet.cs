@@ -15,6 +15,7 @@ public class Bullet : MonoBehaviour {
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        Destroy(gameObject.GetComponent<BoxCollider2D>());
         Destroy(gameObject);
         if (!collision.collider.CompareTag("Unbreakable"))
             Destroy(collision.collider.gameObject);
