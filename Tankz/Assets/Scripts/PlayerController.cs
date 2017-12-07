@@ -10,6 +10,8 @@ public class PlayerController : MonoBehaviour {
     public KeyCode moveDown;
     public KeyCode shoot;
 
+    public float fireRate = 0.3f;
+
     public NodeGrid grid;
     public Node node;
 
@@ -109,7 +111,7 @@ public class PlayerController : MonoBehaviour {
     {
         canShoot = false;
         Instantiate(bulletPrefab, tank.bulletPoint.position, transform.rotation);
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(fireRate);
         canShoot = true;
     }
 }
