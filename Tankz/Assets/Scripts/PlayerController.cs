@@ -13,6 +13,8 @@ public class PlayerController : MonoBehaviour {
     public NodeGrid grid;
     public Node node;
 
+    public GameObject bulletPrefab = null;
+
     Rigidbody2D rigidBody = null;
     Tank tank = null;
 
@@ -20,6 +22,12 @@ public class PlayerController : MonoBehaviour {
     {
         rigidBody = GetComponent<Rigidbody2D>();
         tank = GetComponent<Tank>();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyUp(shoot))
+            Shoot();
     }
 
     private void FixedUpdate()
@@ -94,5 +102,10 @@ public class PlayerController : MonoBehaviour {
             
         rigidBody.MovePosition(rigidBody.position + moveVector * speed);
 
+    }
+
+    void Shoot()
+    {
+        Instantiate(bulletPrefab, tank.bulletPoint.position, transform.rotation);
     }
 }
