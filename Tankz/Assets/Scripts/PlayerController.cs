@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour {
 
     Rigidbody2D rigidBody = null;
     Tank tank = null;
+    bool canShoot = true;
 
     private void Awake()
     {
@@ -26,8 +27,8 @@ public class PlayerController : MonoBehaviour {
 
     private void Update()
     {
-        if (Input.GetKeyUp(shoot))
-            Shoot();
+        if (Input.GetKeyUp(shoot) && canShoot)
+            StartCoroutine(Shoot());
     }
 
     private void FixedUpdate()
@@ -104,8 +105,11 @@ public class PlayerController : MonoBehaviour {
 
     }
 
-    void Shoot()
+    IEnumerator Shoot()
     {
+        canShoot = false;
         Instantiate(bulletPrefab, tank.bulletPoint.position, transform.rotation);
+        yield return new WaitForSeconds(0.3f);
+        canShoot = true;
     }
 }

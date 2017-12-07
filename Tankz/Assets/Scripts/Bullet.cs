@@ -10,15 +10,10 @@ public class Bullet : MonoBehaviour {
 	void Start()
     {
         rigidbody = GetComponent<Rigidbody2D>();
-    }
-	
-	// Update is called once per frame
-	void FixedUpdate()
-    {
         rigidbody.velocity = transform.up * speed;
-	}
+    }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
         Destroy(gameObject);
     }
