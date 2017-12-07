@@ -8,7 +8,7 @@ public class NodeGrid : MonoBehaviour {
     public float nodeSize = 0.0f;
     public GameObject nodePrefab = null;
     public GameObject wallPrefab = null;
-    public GameObject playerPrefab1 = null;
+    public GameObject[] playerPrefabs = null;
     public int numberOfWallsToGenerate = 10;
     public Node[,] nodes = null;
 
@@ -17,7 +17,7 @@ public class NodeGrid : MonoBehaviour {
         GenerateGrid();
         GenerateOuterWalls();
         GenerateRandomWalls(numberOfWallsToGenerate);
-        GeneratePlayer(playerPrefab1);
+        GeneratePlayers();
     }
 	
 	void GenerateGrid()
@@ -77,25 +77,22 @@ public class NodeGrid : MonoBehaviour {
         }
     }
 
-    void GeneratePlayer(GameObject prefab)
+    void GeneratePlayers()
     {
-        GameObject player = Instantiate(prefab, new Vector3(gridSize.x * nodeSize /2, gridSize.y * nodeSize / 2, 0), new Quaternion());
-        PlayerController playerController = player.GetComponent<PlayerController>();
-        playerController.grid = this;
-        /*bool isGenerated = false;
-        while (!isGenerated)
+        bool isGenerated = false;
+        int counter = 0;
+        while (counter <= 1)
         {
-            int randomX = Random.Range(0, gridSize.x);
+            /*int randomX = Random.Range(0, gridSize.x);
             int randomY = Random.Range(0, gridSize.y);
             if (nodes[randomX, randomY].isFree())
-            {
-                GameObject player = Instantiate(prefab, nodes[randomX, randomY].transform);
-                PlayerController playerController = player.GetComponent<PlayerController>();
-                playerController.grid = this;
-                nodes[randomX, randomY].objectOnNode = player;
-                playerController.node = nodes[randomX, randomY];
-                isGenerated = true;
-            }
-        }*/
+            {*/
+            int[] x = new int[] { 2, gridSize.x - 2 };
+            int[] y = new int[] { 2, gridSize.y - 2 };
+            GameObject player = Instantiate(playerPrefabs[counter], new Vector3(x[counter] * nodeSize, y[counter++] * nodeSize, 0), new Quaternion());
+            PlayerController playerController = player.GetComponent<PlayerController>();
+            playerController.grid = this;
+            //}
+        }
     }
 }

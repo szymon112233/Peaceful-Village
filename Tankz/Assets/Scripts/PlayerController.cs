@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
 
+    [Header("Which player is it? e.g. 1 == Player1")]
+    public int player;
+
     public KeyCode moveLeft;
     public KeyCode moveRight;
     public KeyCode moveUp;
@@ -35,7 +38,7 @@ public class PlayerController : MonoBehaviour {
 
     private void FixedUpdate()
     {
-        Vector2 moveVector = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        Vector2 moveVector = new Vector2(Input.GetAxisRaw("Horizontal" + player), Input.GetAxisRaw("Vertical" + player));
         Move(moveVector);
     }
 
