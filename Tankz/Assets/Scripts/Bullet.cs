@@ -4,7 +4,7 @@ public class Bullet : MonoBehaviour {
 
     public float speed = 32f;
 
-    Rigidbody2D rigidbody;
+    private Rigidbody2D rigidbody;
 
 	// Use this for initialization
 	void Start()
@@ -16,5 +16,7 @@ public class Bullet : MonoBehaviour {
     private void OnCollisionEnter2D(Collision2D collision)
     {
         Destroy(gameObject);
+        if (!collision.collider.CompareTag("Unbreakable"))
+            Destroy(collision.collider.gameObject);
     }
 }

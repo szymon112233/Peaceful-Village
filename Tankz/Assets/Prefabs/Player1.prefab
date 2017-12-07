@@ -67,7 +67,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1744497193109006}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 8, z: 0}
+  m_LocalPosition: {x: 0, y: 10, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4275135057247232}
@@ -134,6 +134,7 @@ MonoBehaviour:
   moveUp: 119
   moveDown: 115
   shoot: 32
+  fireRate: 0.3
   grid: {fileID: 0}
   node: {fileID: 0}
   bulletPrefab: {fileID: 1676994771348698, guid: 45d538f147b95004faffff87fe2aebed,
@@ -150,7 +151,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletPoint: {fileID: 4397862554193348}
-  speed: 16
+  speed: 64
 --- !u!212 &212547862372451790
 SpriteRenderer:
   m_ObjectHideFlags: 1

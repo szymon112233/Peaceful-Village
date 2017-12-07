@@ -38,27 +38,27 @@ public class NodeGrid : MonoBehaviour {
         int i = 0;
         for (int j = 0; j< gridSize.x; j++)
         {
-            nodes[j, i].objectOnNode = Instantiate(wallPrefab, nodes[j, i].transform);
+            (nodes[j, i].objectOnNode = Instantiate(wallPrefab, nodes[j, i].transform)).tag = "Unbreakable";
         }
 
         i = gridSize.y -1;
         for (int j = 0; j < gridSize.x; j++)
         {
-            nodes[j, i].objectOnNode = Instantiate(wallPrefab, nodes[j, i].transform);
+            (nodes[j, i].objectOnNode = Instantiate(wallPrefab, nodes[j, i].transform)).tag = "Unbreakable";
         }
 
         i = 0;
         for (int j = 0; j < gridSize.y; j++)
         {
             if (nodes[i, j].isFree())
-                nodes[i, j].objectOnNode = Instantiate(wallPrefab, nodes[i, j].transform);
+                (nodes[i, j].objectOnNode = Instantiate(wallPrefab, nodes[i, j].transform)).tag = "Unbreakable";
         }
 
         i = gridSize.x - 1;
         for (int j = 0; j < gridSize.y; j++)
         {
             if (nodes[i, j].isFree())
-                nodes[i, j].objectOnNode = Instantiate(wallPrefab, nodes[i, j].transform);
+                (nodes[i, j].objectOnNode = Instantiate(wallPrefab, nodes[i, j].transform)).tag = "Unbreakable";
         }
     }
 
