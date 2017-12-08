@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311992, g: 0.38074034, b: 0.35872713, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -226,7 +226,7 @@ MonoBehaviour:
   playerPrefabs:
   - {fileID: 1737528639124548, guid: 0d701e54634f1924b8842ef0dff72c75, type: 2}
   - {fileID: 1737528639124548, guid: b35946f7d5c521a4fb34f0957a7da8a3, type: 2}
-  numberOfWallsToGenerate: 10
+  numberOfWallsToGenerate: 50
 --- !u!4 &1615443507
 Transform:
   m_ObjectHideFlags: 0
@@ -249,6 +249,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1697141889}
   - component: {fileID: 1697141888}
+  - component: {fileID: 1697141890}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -282,3 +283,14 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1697141890
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1697141887}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb2168959ccdaf24cb62519b74046b76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
