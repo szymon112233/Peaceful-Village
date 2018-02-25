@@ -20,13 +20,13 @@ GameObject:
   m_Component:
   - component: {fileID: 4275135057247232}
   - component: {fileID: 114888122333988818}
+  - component: {fileID: 114669956642370994}
   - component: {fileID: 212547862372451790}
   - component: {fileID: 61898579150295850}
   - component: {fileID: 114992953060149788}
   - component: {fileID: 50424957295635310}
-  - component: {fileID: 114221709475575704}
   m_Layer: 0
-  m_Name: Player1
+  m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -119,7 +119,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 15.5, y: 15.5}
   m_EdgeRadius: 0
---- !u!114 &114221709475575704
+--- !u!114 &114669956642370994
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -127,10 +127,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1737528639124548}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ea9d172f75324cc986ce2dad8012cc4c, type: 3}
+  m_Script: {fileID: 11500000, guid: 46eb81b0e7fd8824ea79e42a1d00e9b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localPlayerNumber: 1
+  decisonTime: 1.5
 --- !u!114 &114888122333988818
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -142,8 +142,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8be83067591a06441b2cdee180b35ea2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: 1
-  controller: {fileID: 114221709475575704}
+  player: 2
+  controller: {fileID: 114669956642370994}
   fireRate: 0.3
   bulletPrefab: {fileID: 1676994771348698, guid: 45d538f147b95004faffff87fe2aebed,
     type: 2}
@@ -194,7 +194,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300702, guid: 3c7012129dc939646941937a7b3c0e4a, type: 3}
+  m_Sprite: {fileID: 21300016, guid: 3c7012129dc939646941937a7b3c0e4a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

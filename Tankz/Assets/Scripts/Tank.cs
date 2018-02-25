@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Tank : MonoBehaviour
 {
-    Node node;
+    MapNode _mapNode;
 
     public Transform bulletPoint = null;
 

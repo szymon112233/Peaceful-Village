@@ -88,6 +88,7 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaDirect: 0.5
     m_PVRFilteringAtrousPositionSigmaIndirect: 2
     m_PVRFilteringAtrousPositionSigmaAO: 1
+    m_ShowResolutionOverlay: 1
   m_LightingDataAsset: {fileID: 0}
   m_UseShadowmask: 1
 --- !u!196 &4
@@ -175,6 +176,7 @@ Camera:
   m_TargetEye: 3
   m_HDR: 1
   m_AllowMSAA: 1
+  m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
@@ -223,10 +225,13 @@ MonoBehaviour:
   nodeSize: 8
   nodePrefab: {fileID: 1608868066767240, guid: d31b839d04c893c46be246880f00427a, type: 2}
   wallPrefab: {fileID: 1798603701170206, guid: a4f5734ba78a06e4ab7356e755f5258e, type: 2}
+  enemyPrefab: {fileID: 1737528639124548, guid: 63745271852cf8c46aa094c20974e367,
+    type: 2}
   playerPrefabs:
   - {fileID: 1737528639124548, guid: 0d701e54634f1924b8842ef0dff72c75, type: 2}
   - {fileID: 1737528639124548, guid: b35946f7d5c521a4fb34f0957a7da8a3, type: 2}
   numberOfWallsToGenerate: 50
+  numberOfEnemiesToGenerate: 1
 --- !u!4 &1615443507
 Transform:
   m_ObjectHideFlags: 0

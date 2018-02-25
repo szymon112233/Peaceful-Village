@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 61898579150295850}
   - component: {fileID: 114992953060149788}
   - component: {fileID: 50424957295635310}
+  - component: {fileID: 114293157051327634}
   m_Layer: 0
   m_Name: Player2
   m_TagString: Untagged
@@ -118,6 +119,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 15.5, y: 15.5}
   m_EdgeRadius: 0
+--- !u!114 &114293157051327634
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1737528639124548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea9d172f75324cc986ce2dad8012cc4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  localPlayerNumber: 2
 --- !u!114 &114888122333988818
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -130,14 +143,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: 2
-  moveLeft: 276
-  moveRight: 275
-  moveUp: 273
-  moveDown: 274
-  shoot: 305
+  controller: {fileID: 114293157051327634}
   fireRate: 0.3
-  grid: {fileID: 0}
-  node: {fileID: 0}
   bulletPrefab: {fileID: 1676994771348698, guid: 45d538f147b95004faffff87fe2aebed,
     type: 2}
 --- !u!114 &114992953060149788

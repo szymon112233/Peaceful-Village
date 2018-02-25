@@ -8,9 +8,11 @@ public class NodeGrid : MonoBehaviour {
     public float nodeSize = 0.0f;
     public GameObject nodePrefab = null;
     public GameObject wallPrefab = null;
+    public GameObject enemyPrefab = null;
     public GameObject[] playerPrefabs = null;
     public int numberOfWallsToGenerate = 10;
-    public Node[,] nodes = null;
+    public int numberOfEnemiesToGenerate = 1;
+    public MapNode[,] MapNodes = null;
 
 	
 	void Start () {
@@ -18,17 +20,18 @@ public class NodeGrid : MonoBehaviour {
         GenerateOuterWalls();
         GenerateRandomWalls(numberOfWallsToGenerate);
         GeneratePlayers();
-    }
+	    GenerateEnemies();
+	}
 	
 	void GenerateGrid()
     {
-        nodes = new Node[gridSize.x, gridSize.y];
+        MapNodes = new MapNode[gridSize.x, gridSize.y];
         for (int i = (gridSize.y - 1) ; i>=0 ; i--)
         {
             for (int j = 0; j < gridSize.x; j++)
             {
                 GameObject go = Instantiate(nodePrefab, new Vector3(j * nodeSize, i * nodeSize, 1.0f), new Quaternion(), gameObject.transform);
-                nodes[j, i] = go.GetComponent<Node>();
+                MapNodes[j, i] = go.GetComponent<MapNode>();
             }
         }
     }
@@ -38,27 +41,27 @@ public class NodeGrid : MonoBehaviour {
         int i = 0;
         for (int j = 0; j< gridSize.x; j++)
         {
-            (nodes[j, i].objectOnNode = Instantiate(wallPrefab, nodes[j, i].transform)).tag = "Unbreakable";
+            (MapNodes[j, i].objectOnNode = Instantiate(wallPrefab, MapNodes[j, i].transform)).tag = "Unbreakable";
         }
 
         i = gridSize.y -1;
         for (int j = 0; j < gridSize.x; j++)
         {
-            (nodes[j, i].objectOnNode = Instantiate(wallPrefab, nodes[j, i].transform)).tag = "Unbreakable";
+            (MapNodes[j, i].objectOnNode = Instantiate(wallPrefab, MapNodes[j, i].transform)).tag = "Unbreakable";
         }
 
         i = 0;
         for (int j = 0; j < gridSize.y; j++)
         {
-            if (nodes[i, j].isFree())
-                (nodes[i, j].objectOnNode = Instantiate(wallPrefab, nodes[i, j].transform)).tag = "Unbreakable";
+            if (MapNodes[i, j].isFree())
+                (MapNodes[i, j].objectOnNode = Instantiate(wallPrefab, MapNodes[i, j].transform)).tag = "Unbreakable";
         }
 
         i = gridSize.x - 1;
         for (int j = 0; j < gridSize.y; j++)
         {
-            if (nodes[i, j].isFree())
-                (nodes[i, j].objectOnNode = Instantiate(wallPrefab, nodes[i, j].transform)).tag = "Unbreakable";
+            if (MapNodes[i, j].isFree())
+                (MapNodes[i, j].objectOnNode = Instantiate(wallPrefab, MapNodes[i, j].transform)).tag = "Unbreakable";
         }
     }
 
@@ -68,9 +71,9 @@ public class NodeGrid : MonoBehaviour {
         {
             int randomX = Random.Range(0, gridSize.x);
             int randomY = Random.Range(0, gridSize.y);
-            if (nodes[randomX, randomY].isFree())
+            if (MapNodes[randomX, randomY].isFree())
             {
-                nodes[randomX, randomY].objectOnNode = Instantiate(wallPrefab, nodes[randomX, randomY].transform);
+                MapNodes[randomX, randomY].objectOnNode = Instantiate(wallPrefab, MapNodes[randomX, randomY].transform);
                 count--;
             }
                 
@@ -83,16 +86,17 @@ public class NodeGrid : MonoBehaviour {
         int counter = 0;
         while (counter <= 1)
         {
-            /*int randomX = Random.Range(0, gridSize.x);
-            int randomY = Random.Range(0, gridSize.y);
-            if (nodes[randomX, randomY].isFree())
-            {*/
-            int[] x = new int[] { 2, gridSize.x - 2 };
-            int[] y = new int[] { 2, gridSize.y - 2 };
+            int[] x =  { 2, gridSize.x - 2 };
+            int[] y =  { 2, gridSize.y - 2 };
             GameObject player = Instantiate(playerPrefabs[counter], new Vector3(x[counter] * nodeSize, y[counter++] * nodeSize, 0), new Quaternion());
-            PlayerController playerController = player.GetComponent<PlayerController>();
-            playerController.grid = this;
-            //}
+        }
+    }
+    
+    void GenerateEnemies()
+    {
+        for (int i = 0; i < numberOfEnemiesToGenerate; i++)
+        {
+            Instantiate(enemyPrefab, new Vector3(Random.Range(8,(gridSize.x - 1) * nodeSize ), Random.Range(8,(gridSize.y - 1) * nodeSize ), 0), new Quaternion());
         }
     }
 }
