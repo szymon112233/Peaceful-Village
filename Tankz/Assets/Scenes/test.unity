@@ -219,11 +219,11 @@ RectTransform:
   m_Father: {fileID: 1316691232}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -438, y: 169.5}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 0, y: -30}
   m_SizeDelta: {x: 160, y: 30}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 0, y: 1}
 --- !u!114 &200864026
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -648,7 +648,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6cdcca779206d7f44af011bb9b735be3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomMap: 0
   gridSize: {x: 25, y: 25}
   nodeSize: 8
   nodePrefab: {fileID: 1608868066767240, guid: d31b839d04c893c46be246880f00427a, type: 2}
@@ -662,6 +661,8 @@ MonoBehaviour:
   numberOfEnemiesToGenerate: 1
   environmentPrefabs:
   - {fileID: 1798603701170206, guid: a4f5734ba78a06e4ab7356e755f5258e, type: 2}
+  spawnPlayers: 0
+  spawnEnemies: 0
 --- !u!4 &1615443507
 Transform:
   m_ObjectHideFlags: 0
@@ -761,11 +762,11 @@ RectTransform:
   m_Father: {fileID: 1316691232}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -438, y: 199.5}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 160, y: 30}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 0, y: 1}
 --- !u!114 &1708263492
 MonoBehaviour:
   m_ObjectHideFlags: 0
