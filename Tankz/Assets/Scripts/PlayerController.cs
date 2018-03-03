@@ -28,6 +28,7 @@ public class PlayerController : MonoBehaviour {
 
     private void Update()
     {
+        
         if (controller.GetShoot() && canShoot)
             StartCoroutine(Shoot());
     }
@@ -37,6 +38,7 @@ public class PlayerController : MonoBehaviour {
         Vector2 moveVector = controller.GetMoveVector();
         if (moveVector.sqrMagnitude != 0.0f) 
             Move(moveVector);
+        rigidBody.velocity = new Vector2();
     }
 
     void Move(Vector2 moveVector)

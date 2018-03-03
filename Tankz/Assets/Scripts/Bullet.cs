@@ -17,7 +17,13 @@ public class Bullet : MonoBehaviour {
     {
         Destroy(gameObject.GetComponent<BoxCollider2D>());
         Destroy(gameObject);
-        if (!collision.collider.CompareTag("Unbreakable"))
+        Collider2D otherCollider = collision.collider;
+        if (!otherCollider.CompareTag("Unbreakable"))
+        {
+            if (otherCollider.CompareTag("Wall"))
+                GameManager.instance.gamestate.RemoveWall(new Vector2Int((int)otherCollider.transform.position.x, (int)otherCollider.transform.position.y));
             Destroy(collision.collider.gameObject);
+        }
+            
     }
 }
