@@ -13,14 +13,14 @@ public struct GameState
     [SerializeField]
     private List<Vector2Int> wallsList;
     [SerializeField]
-    private List<GameTank> tanksList;
+    private List<GameObject> tanksList;
     
-    public GameState(Vector2Int mapSize, List<Vector2Int> hardWallsList, List<Vector2Int> wallsList, List<GameTank> tanksList)
+    public GameState(Vector2Int mapSize, List<Vector2Int> hardWallsList, List<Vector2Int> wallsList, List<GameObject> tanksList)
     {
         this.mapSize = mapSize;
         this.hardWallsList = new List<Vector2Int>(hardWallsList.ToArray());
         this.wallsList = new List<Vector2Int>(wallsList.ToArray());
-        this.tanksList = new List<GameTank>(tanksList.ToArray());
+        this.tanksList = new List<GameObject>(tanksList.ToArray());
     }
 
     public override string ToString()
@@ -42,7 +42,7 @@ public struct GameState
         }
     }
     
-    public bool RemoveTank(GameTank tank)
+    public bool RemoveTank(GameObject tank)
     {
         if (tanksList.Contains(tank))
         {
@@ -55,7 +55,7 @@ public struct GameState
         }
     }
     
-    public bool AddTank(GameTank tank)
+    public bool AddTank(GameObject tank)
     {
         if (!tanksList.Contains(tank))
         {

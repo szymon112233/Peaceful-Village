@@ -665,8 +665,14 @@ MonoBehaviour:
   - {fileID: 1129313029668708, guid: 7fb315bd9db66d74a947344d966530b7, type: 2}
   - {fileID: 1770255009240600, guid: fa634e2b8de810246a2d3b14faf1adb0, type: 2}
   - {fileID: 1798603701170206, guid: ffd9502efa38c794aa8adeb9e6a58ed6, type: 2}
+  - {fileID: 1737528639124548, guid: 0d701e54634f1924b8842ef0dff72c75, type: 2}
+  - {fileID: 1737528639124548, guid: 63745271852cf8c46aa094c20974e367, type: 2}
   spawnPlayers: 1
   spawnEnemies: 0
+  wallSpriteIndex: 0
+  unbreakableWallSpriteIndex: 1
+  playerSpriteIndex: 5
+  enemySpriteStartIndex: 6
 --- !u!4 &1615443507
 Transform:
   m_ObjectHideFlags: 0

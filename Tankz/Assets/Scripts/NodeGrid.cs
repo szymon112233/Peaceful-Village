@@ -19,8 +19,14 @@ public class NodeGrid : MonoBehaviour {
 
     public bool spawnPlayers, spawnEnemies;
 
-    List<GameObject> players = new List<GameObject>();
-    List<GameObject> enemies = new List<GameObject>();
+    public int wallSpriteIndex = 0;
+    public int unbreakableWallSpriteIndex = 1;
+    public int playerSpriteIndex = 5;
+    public int enemySpriteStartIndex = 6;
+
+    List<Vector2Int> hardWalls;
+    List<Vector2Int> walls;
+    List<GameObject> tanks;
 
     /*
     public void GenerateRandom()
@@ -33,6 +39,13 @@ public class NodeGrid : MonoBehaviour {
         GenerateEnemies();
     }*/
 
+    private void Awake()
+    {
+        hardWalls = new List<Vector2Int>();
+        walls = new List<Vector2Int>();
+        tanks = new List<GameObject>();
+    }
+
     public void LoadMap()
     {
         Clear();
@@ -44,7 +57,8 @@ public class NodeGrid : MonoBehaviour {
             gridSize.x = lines[0].Split(',').Length;
             gridSize.y = lines.Length - 1;
             GenerateGrid();
-            GenerateOuterWalls();
+            hardWalls.AddRange(GenerateOuterWalls());
+            int playerIndex = 1;
             for (int i = gridSize.y - 1; i >= 0; i--)
             {
                 string[] indices = lines[gridSize.y - 1 - i].Split(',');
@@ -52,13 +66,37 @@ public class NodeGrid : MonoBehaviour {
                 for (int j = 0; j < gridSize.x; j++)
                 {
                     if (MapNodes[j, i].objectOnNode == null && (index = int.Parse(indices[j])) != -1)
-                        MapNodes[j, i].objectOnNode = Instantiate(environmentPrefabs[index], new Vector3(j * nodeSize, i * nodeSize, 1.0f), new Quaternion(), gameObject.transform);
+                    {
+                        if (index == playerSpriteIndex)
+                        {
+                            GameObject player = Instantiate(environmentPrefabs[index], new Vector3(j * nodeSize, i * nodeSize, 1.0f), new Quaternion(), gameObject.transform);
+                            player.GetComponent<TankControllerHuman>().localPlayerNumber = playerIndex++;
+                            tanks.Add(player);
+                        }
+                        else if (index >= enemySpriteStartIndex)
+                        {
+                            GameObject enemy = Instantiate(environmentPrefabs[index], new Vector3(j * nodeSize, i * nodeSize, 1.0f), new Quaternion(), gameObject.transform);
+                            enemy.GetComponent<Tank>().team = index - enemySpriteStartIndex;
+                            tanks.Add(enemy);
+                        }
+                        else if (index == unbreakableWallSpriteIndex)
+                        {
+                            MapNodes[j, i].objectOnNode = Instantiate(environmentPrefabs[index], new Vector3(j * nodeSize, i * nodeSize, 1.0f), new Quaternion(), gameObject.transform);
+                            hardWalls.Add(new Vector2Int((int)MapNodes[j, i].transform.position.x, (int)MapNodes[j, i].transform.position.y));
+                        }
+                        else if (index == wallSpriteIndex)
+                        {
+                            MapNodes[j, i].objectOnNode = Instantiate(environmentPrefabs[index], new Vector3(j * nodeSize, i * nodeSize, 1.0f), new Quaternion(), gameObject.transform);
+                            walls.Add(new Vector2Int((int)MapNodes[j, i].transform.position.x, (int)MapNodes[j, i].transform.position.y));
+                        }
+                        else
+                            MapNodes[j, i].objectOnNode = Instantiate(environmentPrefabs[index], new Vector3(j * nodeSize, i * nodeSize, 1.0f), new Quaternion(), gameObject.transform);
+                    }
                 }
             }
-            if (spawnPlayers)
-            GeneratePlayers();
-            if (spawnEnemies)
-            GenerateEnemies();
+            GameManager.instance.gamestate = new GameState(gridSize, hardWalls, walls, tanks);
+
+            Debug.Log(GameManager.instance.gamestate);
         }
         else
             Debug.LogError("Can't read from file!");
@@ -68,21 +106,20 @@ public class NodeGrid : MonoBehaviour {
     {
         foreach (Transform child in transform)
             Destroy(child.gameObject);
-        foreach (GameObject player in players)
-            Destroy(player);
-        foreach (GameObject enemy in enemies)
-            Destroy(enemy);
+        foreach (GameObject tank in tanks)
+            Destroy(tank);
+        hardWalls = new List<Vector2Int>();
+        walls = new List<Vector2Int>();
     }
 
     void GenerateRandom()
     {
         Clear();
         GenerateGrid();
-	    List<Vector2Int> hardWalls = GenerateOuterWalls();
-	    List<Vector2Int> walls = GenerateRandomWalls(numberOfWallsToGenerate);
-	    List<GameTank> tanks = new List<GameTank>();
-	    tanks.AddRange(GeneratePlayers());
-	    tanks.AddRange(GenerateEnemies());
+	    GeneratePlayers();
+	    GenerateEnemies();
+        walls.AddRange(GenerateRandomWalls(numberOfWallsToGenerate));
+        hardWalls.AddRange(GenerateOuterWalls());
 	    
 	    GameManager.instance.gamestate = new GameState(gridSize, hardWalls, walls, tanks);
 	    
@@ -160,43 +197,24 @@ public class NodeGrid : MonoBehaviour {
         return walls;
     }
 
-    List<GameTank> GeneratePlayers()
+    void GeneratePlayers()
     {
-        List<GameTank> tanks = new List<GameTank>();
-        bool isGenerated = false;
         int counter = 0;
         while (counter <= 1)
         {
             int[] x =  { 2, gridSize.x - 2 };
             int[] y =  { 2, gridSize.y - 2 };
             GameObject player = Instantiate(playerPrefabs[counter], new Vector3(x[counter] * nodeSize, y[counter++] * nodeSize, 0), new Quaternion());
-
-            players.Add(player);
-
-            GameTank tank = new GameTank();
-            tank.team = 0;
-            tank.position = new Vector2(player.transform.position.x, player.transform.position.y);
-            tanks.Add(tank);
-
+            tanks.Add(player);
         }
-        return tanks;
     }
-    
-    List<GameTank> GenerateEnemies()
+
+    void GenerateEnemies()
     {
-        List<GameTank> tanks = new List<GameTank>();
         for (int i = 0; i < numberOfEnemiesToGenerate; i++)
         {
             GameObject enemy = Instantiate(enemyPrefab, new Vector3(Random.Range(8,(gridSize.x - 1) * nodeSize ), Random.Range(8,(gridSize.y - 1) * nodeSize ), 0), new Quaternion());
-
-            enemies.Add(enemy);
-
-            GameTank tank = new GameTank();
-            tank.team = 1;
-            tank.position = new Vector2(enemy.transform.position.x, enemy.transform.position.y);
-            tanks.Add(tank);
-
+            tanks.Add(enemy);
         }
-        return tanks;
     }
 }
