@@ -17,7 +17,7 @@ public class GameState
     [SerializeField]
     public readonly List<Vector2Int> waterList;
     [SerializeField]
-    public readonly List<GameObject> tanksList;
+    public readonly List<Tank> tanksList;
     
     public GameState()
     {
@@ -26,18 +26,18 @@ public class GameState
         wallsList = new List<Vector2Int>();
         bushList = new List<Vector2Int>();
         waterList = new List<Vector2Int>();
-        tanksList = new List<GameObject>();
+        tanksList = new List<Tank>();
     }
     
     public GameState(Vector2Int mapSize, List<Vector2Int> hardWallsList, List<Vector2Int> wallsList, 
-        List<Vector2Int> bushList, List<Vector2Int> waterList, List<GameObject> tanksList)
+        List<Vector2Int> bushList, List<Vector2Int> waterList, List<Tank> tanksList)
     {
         this.mapSize = mapSize;
         this.hardWallsList = new List<Vector2Int>(hardWallsList.ToArray());
         this.wallsList = new List<Vector2Int>(wallsList.ToArray());
         this.bushList = new List<Vector2Int>(bushList.ToArray());
         this.waterList = new List<Vector2Int>(waterList.ToArray());
-        this.tanksList = new List<GameObject>(tanksList.ToArray());
+        this.tanksList = new List<Tank>(tanksList.ToArray());
     }
 
     public override string ToString()
@@ -61,7 +61,7 @@ public class GameState
         }
     }
     
-    public bool RemoveTank(GameObject tank)
+    public bool RemoveTank(Tank tank)
     {
         if (tanksList.Contains(tank))
         {
@@ -76,7 +76,7 @@ public class GameState
         }
     }
     
-    public bool AddTank(GameObject tank)
+    public bool AddTank(Tank tank)
     {
         if (!tanksList.Contains(tank))
         {
@@ -91,7 +91,7 @@ public class GameState
         }
     }
 
-    [System.Diagnostics.Conditional("DEBUG")]
+    [System.Diagnostics.Conditional("DEBUG_GAMESTATE")]
     private void Log(string message)
     {
         Debug.LogFormat("GameState: {0}", message);

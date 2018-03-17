@@ -12,8 +12,8 @@ public class Tank : MonoBehaviour
     [Header("Speed in pixels per second")]
     public float speed = 16;
 
-    void Update ()
+    private void OnDestroy()
     {
-		
-	}
+        GameManager.instance.gamestate.RemoveTank(this);
+    }
 }

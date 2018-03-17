@@ -32,7 +32,7 @@ public class NodeGrid : MonoBehaviour {
     List<Vector2Int> walls;
     List<Vector2Int> bushes;
     List<Vector2Int> waters;
-    List<GameObject> tanks;
+    List<Tank> tanks;
 
     private void Awake()
     {
@@ -40,7 +40,7 @@ public class NodeGrid : MonoBehaviour {
         walls = new List<Vector2Int>();
         bushes = new List<Vector2Int>();
         waters = new List<Vector2Int>();
-        tanks = new List<GameObject>();
+        tanks = new List<Tank>();
 
         wallSpriteIndex = GetSpriteIndex("Wall");
         if (wallSpriteIndex == -1)
@@ -96,15 +96,15 @@ public class NodeGrid : MonoBehaviour {
                     {
                         if (index == playerSpriteIndex)
                         {
-                            GameObject player = Instantiate(environmentPrefabs[index], new Vector3(j * nodeSize, i * nodeSize, 1.0f), new Quaternion(), gameObject.transform);
+                            GameObject player = Instantiate(environmentPrefabs[index], new Vector3(j * nodeSize +4, i * nodeSize - 4, 1.0f), new Quaternion(), gameObject.transform);
                             player.GetComponent<TankControllerHuman>().localPlayerNumber = playerIndex++;
-                            tanks.Add(player);
+                            tanks.Add(player.GetComponent<Tank>());
                         }
                         else if (index >= enemySpriteStartIndex)
                         {
-                            GameObject enemy = Instantiate(environmentPrefabs[index], new Vector3(j * nodeSize, i * nodeSize, 1.0f), new Quaternion(), gameObject.transform);
+                            GameObject enemy = Instantiate(environmentPrefabs[index], new Vector3(j * nodeSize + 4, i * nodeSize - 4, 1.0f), new Quaternion(), gameObject.transform);
                             enemy.GetComponent<Tank>().team = index - enemySpriteStartIndex;
-                            tanks.Add(enemy);
+                            tanks.Add(enemy.GetComponent<Tank>());
                         }
                         else if (index == unbreakableWallSpriteIndex)
                         {
@@ -143,8 +143,8 @@ public class NodeGrid : MonoBehaviour {
     {
         foreach (Transform child in transform)
             Destroy(child.gameObject);
-        foreach (GameObject tank in tanks)
-            Destroy(tank);
+        foreach (Tank tank in tanks)
+            Destroy(tank.gameObject);
         hardWalls = new List<Vector2Int>();
         walls = new List<Vector2Int>();
         bushes = new List<Vector2Int>();
@@ -284,7 +284,7 @@ public class NodeGrid : MonoBehaviour {
             int[] x =  { 2, gridSize.x - 2 };
             int[] y =  { 2, gridSize.y - 2 };
             GameObject player = Instantiate(playerPrefabs[counter], new Vector3(x[counter] * nodeSize, y[counter++] * nodeSize, 0), new Quaternion());
-            tanks.Add(player);
+            tanks.Add(player.GetComponent<Tank>());
         }
     }
 
@@ -293,7 +293,7 @@ public class NodeGrid : MonoBehaviour {
         for (int i = 0; i < numberOfEnemiesToGenerate; i++)
         {
             GameObject enemy = Instantiate(enemyPrefab, new Vector3(Random.Range(8,(gridSize.x - 1) * nodeSize ), Random.Range(8,(gridSize.y - 1) * nodeSize ), 0), new Quaternion());
-            tanks.Add(enemy);
+            tanks.Add(enemy.GetComponent<Tank>());
         }
     }
 }
