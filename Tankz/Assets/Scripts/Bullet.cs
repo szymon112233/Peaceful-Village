@@ -6,6 +6,8 @@ public class Bullet : MonoBehaviour {
 
     private Rigidbody2D rigidbody;
 
+    public GameObject owner;
+
 	// Use this for initialization
 	void Start()
     {
@@ -22,7 +24,8 @@ public class Bullet : MonoBehaviour {
         {
             if (otherCollider.CompareTag("Wall"))
                 GameManager.instance.gamestate.RemoveWall(new Vector2Int((int)otherCollider.transform.position.x, (int)otherCollider.transform.position.y));
-            Destroy(collision.collider.gameObject);
+            if (collision.collider.gameObject != owner)
+                Destroy(collision.collider.gameObject);
         }
             
     }

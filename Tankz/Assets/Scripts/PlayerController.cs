@@ -114,7 +114,7 @@ public class PlayerController : MonoBehaviour {
     IEnumerator Shoot()
     {
         canShoot = false;
-        Instantiate(bulletPrefab, tank.bulletPoint.position, transform.rotation);
+        Instantiate(bulletPrefab, tank.bulletPoint.position, transform.rotation).GetComponent<Bullet>().owner = gameObject;
         yield return new WaitForSeconds(fireRate);
         canShoot = true;
     }
