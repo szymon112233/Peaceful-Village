@@ -13,6 +13,8 @@ public class NodeGrid : MonoBehaviour {
     public GameObject enemyPrefab = null;
     public GameObject[] playerPrefabs = null;
     public int numberOfWallsToGenerate = 10;
+    public int numberOfBushesToGenerate = 10;
+    public int numberOfWatersToGenerate = 10;
     public int numberOfEnemiesToGenerate = 1;
     public MapNode[,] MapNodes = null;
     public GameObject[] environmentPrefabs = null;
@@ -20,30 +22,55 @@ public class NodeGrid : MonoBehaviour {
     public bool spawnPlayers, spawnEnemies;
 
     public int wallSpriteIndex = 0;
-    public int unbreakableWallSpriteIndex = 1;
-    public int playerSpriteIndex = 5;
-    public int enemySpriteStartIndex = 6;
+    public int unbreakableWallSpriteIndex = 0;
+    public int bushSpriteIndex = 0;
+    public int waterSpriteIndex = 0;
+    public int playerSpriteIndex = 0;
+    public int enemySpriteStartIndex = 0;
 
     List<Vector2Int> hardWalls;
     List<Vector2Int> walls;
+    List<Vector2Int> bushes;
+    List<Vector2Int> waters;
     List<GameObject> tanks;
-
-    /*
-    public void GenerateRandom()
-    {
-        Clear();
-        GenerateGrid();
-        GenerateOuterWalls();
-        GenerateRandomWalls(numberOfWallsToGenerate);
-        GeneratePlayers();
-        GenerateEnemies();
-    }*/
 
     private void Awake()
     {
         hardWalls = new List<Vector2Int>();
         walls = new List<Vector2Int>();
+        bushes = new List<Vector2Int>();
+        waters = new List<Vector2Int>();
         tanks = new List<GameObject>();
+
+        wallSpriteIndex = GetSpriteIndex("Wall");
+        if (wallSpriteIndex == -1)
+            Debug.LogError("Could not find index of wallSpriteIndex!!");
+        unbreakableWallSpriteIndex = GetSpriteIndex("UnbreakableWall");
+        if (unbreakableWallSpriteIndex == -1)
+            Debug.LogError("Could not find index of unbreakableWallSpriteIndex!!");
+        bushSpriteIndex = GetSpriteIndex("Bush");
+        if (bushSpriteIndex == -1)
+            Debug.LogError("Could not find index of bushSpriteIndex!!");
+        waterSpriteIndex = GetSpriteIndex("Water");
+        if (waterSpriteIndex == -1)
+            Debug.LogError("Could not find index of waterSpriteIndex!!");
+        playerSpriteIndex = GetSpriteIndex("Player1");
+        if (playerSpriteIndex == -1)
+            Debug.LogError("Could not find index of playerSpriteIndex!!");
+        enemySpriteStartIndex = GetSpriteIndex("Enemy");
+        if (enemySpriteStartIndex == -1)
+            Debug.LogError("Could not find index of enemySpriteStartIndex!!");
+    }
+
+    private int GetSpriteIndex(string name)
+    {
+        for (int i = 0; i < environmentPrefabs.Length; i++)
+        {
+            if (environmentPrefabs[i].name == name)
+                return i;
+        }
+
+        return -1;
     }
 
     public void LoadMap()
@@ -89,12 +116,22 @@ public class NodeGrid : MonoBehaviour {
                             MapNodes[j, i].objectOnNode = Instantiate(environmentPrefabs[index], new Vector3(j * nodeSize, i * nodeSize, 1.0f), new Quaternion(), gameObject.transform);
                             walls.Add(new Vector2Int((int)MapNodes[j, i].transform.position.x, (int)MapNodes[j, i].transform.position.y));
                         }
+                        else if (index == bushSpriteIndex)
+                        {
+                            MapNodes[j, i].objectOnNode = Instantiate(environmentPrefabs[index], new Vector3(j * nodeSize, i * nodeSize, 1.0f), new Quaternion(), gameObject.transform);
+                            bushes.Add(new Vector2Int((int)MapNodes[j, i].transform.position.x, (int)MapNodes[j, i].transform.position.y));
+                        }
+                        else if (index == waterSpriteIndex)
+                        {
+                            MapNodes[j, i].objectOnNode = Instantiate(environmentPrefabs[index], new Vector3(j * nodeSize, i * nodeSize, 1.0f), new Quaternion(), gameObject.transform);
+                            waters.Add(new Vector2Int((int)MapNodes[j, i].transform.position.x, (int)MapNodes[j, i].transform.position.y));
+                        }
                         else
                             MapNodes[j, i].objectOnNode = Instantiate(environmentPrefabs[index], new Vector3(j * nodeSize, i * nodeSize, 1.0f), new Quaternion(), gameObject.transform);
                     }
                 }
             }
-            GameManager.instance.gamestate = new GameState(gridSize, hardWalls, walls, tanks);
+            GameManager.instance.gamestate = new GameState(gridSize, hardWalls, walls, bushes, waters, tanks);
 
             Debug.Log(GameManager.instance.gamestate);
         }
@@ -110,6 +147,12 @@ public class NodeGrid : MonoBehaviour {
             Destroy(tank);
         hardWalls = new List<Vector2Int>();
         walls = new List<Vector2Int>();
+        bushes = new List<Vector2Int>();
+        waters = new List<Vector2Int>();
+        
+        GameManager.instance.gamestate = new GameState();
+        
+        
     }
 
     void GenerateRandom()
@@ -120,8 +163,10 @@ public class NodeGrid : MonoBehaviour {
 	    GenerateEnemies();
         walls.AddRange(GenerateRandomWalls(numberOfWallsToGenerate));
         hardWalls.AddRange(GenerateOuterWalls());
+        bushes.AddRange(GenerateRandomBushes(numberOfBushesToGenerate));
+        waters.AddRange(GenerateRandomWater(numberOfWatersToGenerate));
 	    
-	    GameManager.instance.gamestate = new GameState(gridSize, hardWalls, walls, tanks);
+	    GameManager.instance.gamestate = new GameState(gridSize, hardWalls, walls, bushes, waters, tanks);
 	    
 	    Debug.Log(GameManager.instance.gamestate);
 	}
@@ -195,6 +240,40 @@ public class NodeGrid : MonoBehaviour {
             }     
         }
         return walls;
+    }
+    
+    List<Vector2Int> GenerateRandomBushes(int count)
+    {
+        List<Vector2Int> bushes = new List<Vector2Int>();
+        while (count > 0)
+        {
+            int randomX = Random.Range(0, gridSize.x);
+            int randomY = Random.Range(0, gridSize.y);
+            if (MapNodes[randomX, randomY].isFree())
+            {
+                MapNodes[randomX, randomY].objectOnNode = Instantiate(environmentPrefabs[bushSpriteIndex], MapNodes[randomX, randomY].transform);
+                count--;
+                bushes.Add(new Vector2Int((int)MapNodes[randomX, randomY].transform.position.x, (int)MapNodes[randomX, randomY].transform.position.y));
+            }     
+        }
+        return bushes;
+    }
+    
+    List<Vector2Int> GenerateRandomWater(int count)
+    {
+        List<Vector2Int> waters = new List<Vector2Int>();
+        while (count > 0)
+        {
+            int randomX = Random.Range(0, gridSize.x);
+            int randomY = Random.Range(0, gridSize.y);
+            if (MapNodes[randomX, randomY].isFree())
+            {
+                MapNodes[randomX, randomY].objectOnNode = Instantiate(environmentPrefabs[waterSpriteIndex], MapNodes[randomX, randomY].transform);
+                count--;
+                waters.Add(new Vector2Int((int)MapNodes[randomX, randomY].transform.position.x, (int)MapNodes[randomX, randomY].transform.position.y));
+            }     
+        }
+        return waters;
     }
 
     void GeneratePlayers()
