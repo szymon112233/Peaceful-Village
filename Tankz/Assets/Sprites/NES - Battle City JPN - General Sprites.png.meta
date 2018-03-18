@@ -404,6 +404,7 @@ TextureImporter:
     21300794: NES - Battle City JPN - General Sprites_397
     21300796: NES - Battle City JPN - General Sprites_398
     21300798: NES - Battle City JPN - General Sprites_399
+    21300800: Bush8x8
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -6095,6 +6096,20 @@ TextureImporter:
         height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Bush8x8
+      rect:
+        serializedVersion: 2
+        x: 264
+        y: 176
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []

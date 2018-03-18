@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311992, g: 0.38074034, b: 0.35872713, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -658,6 +658,8 @@ MonoBehaviour:
   - {fileID: 1737528639124548, guid: 0d701e54634f1924b8842ef0dff72c75, type: 2}
   - {fileID: 1737528639124548, guid: b35946f7d5c521a4fb34f0957a7da8a3, type: 2}
   numberOfWallsToGenerate: 50
+  numberOfBushesToGenerate: 10
+  numberOfWatersToGenerate: 10
   numberOfEnemiesToGenerate: 1
   environmentPrefabs:
   - {fileID: 1798603701170206, guid: a4f5734ba78a06e4ab7356e755f5258e, type: 2}
@@ -671,6 +673,8 @@ MonoBehaviour:
   spawnEnemies: 0
   wallSpriteIndex: 0
   unbreakableWallSpriteIndex: 1
+  bushSpriteIndex: 0
+  waterSpriteIndex: 0
   playerSpriteIndex: 5
   enemySpriteStartIndex: 6
 --- !u!4 &1615443507
@@ -740,11 +744,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb2168959ccdaf24cb62519b74046b76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gamestate:
-    mapSize: {x: 0, y: 0}
-    hardWallsList: []
-    wallsList: []
-    tanksList: []
 --- !u!1 &1708263490
 GameObject:
   m_ObjectHideFlags: 0

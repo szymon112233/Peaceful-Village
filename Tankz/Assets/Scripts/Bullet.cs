@@ -7,6 +7,7 @@ public class Bullet : MonoBehaviour {
     private Rigidbody2D rigidbody;
 
     public GameObject owner;
+    public GameObject boomEffect;
 
 	// Use this for initialization
 	void Start()
@@ -19,13 +20,14 @@ public class Bullet : MonoBehaviour {
     {
         Destroy(gameObject.GetComponent<BoxCollider2D>());
         Destroy(gameObject);
+        Instantiate(boomEffect, transform.position, Quaternion.identity);
         Collider2D otherCollider = collision.collider;
         if (!otherCollider.CompareTag("Unbreakable"))
         {
             if (otherCollider.CompareTag("Wall"))
                 GameManager.instance.gamestate.RemoveWall(new Vector2Int((int)otherCollider.transform.position.x, (int)otherCollider.transform.position.y));
-            if (collision.collider.gameObject != owner)
-                Destroy(collision.collider.gameObject);
+            if (otherCollider.gameObject != owner)
+                Destroy(otherCollider.gameObject);
         }
             
     }
