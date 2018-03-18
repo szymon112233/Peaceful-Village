@@ -134,6 +134,7 @@ public class NodeGrid : MonoBehaviour {
             GameManager.instance.gamestate = new GameState(gridSize, hardWalls, walls, bushes, waters, tanks);
 
             Debug.Log(GameManager.instance.gamestate);
+            GameManager.instance.CenterCamera();
         }
         else
             Debug.LogError("Can't read from file!");
@@ -169,6 +170,8 @@ public class NodeGrid : MonoBehaviour {
 	    GameManager.instance.gamestate = new GameState(gridSize, hardWalls, walls, bushes, waters, tanks);
 	    
 	    Debug.Log(GameManager.instance.gamestate);
+        
+        GameManager.instance.CenterCamera();
 	}
 	
 	void GenerateGrid()

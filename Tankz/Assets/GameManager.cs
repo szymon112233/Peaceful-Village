@@ -28,12 +28,23 @@ public class GameManager : MonoBehaviour
 	}
 
 	#endregion
-	
+
+	private void Start()
+	{
+		cameraCenter = GetComponent<CameraCenter>();
+	}
+
 	public GameState gamestate;
+	private CameraCenter cameraCenter;
 	
 	// Update is called once per frame
 	void Update () {
         if (Input.GetKeyDown(KeyCode.R))
             UnityEngine.SceneManagement.SceneManager.LoadScene("test");
+	}
+
+	public void CenterCamera()
+	{
+		cameraCenter.CenterCamera();
 	}
 }

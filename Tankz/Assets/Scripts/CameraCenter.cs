@@ -16,6 +16,11 @@ public class CameraCenter : MonoBehaviour {
 
     private void Start()
     {
+        CenterCamera();
+    }
+
+    public void CenterCamera()
+    {
         mainCamera.transform.position = new Vector3(grid.nodeSize * grid.gridSize.x /2.0f - grid.nodeSize/2.0f , grid.nodeSize * grid.gridSize.y / 2.0f - grid.nodeSize / 2.0f, - 10);
     }
 
