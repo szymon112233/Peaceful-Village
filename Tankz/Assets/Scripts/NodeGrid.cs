@@ -145,7 +145,8 @@ public class NodeGrid : MonoBehaviour {
         foreach (Transform child in transform)
             Destroy(child.gameObject);
         foreach (Tank tank in tanks)
-            Destroy(tank.gameObject);
+            if (tank != null)
+                Destroy(tank.gameObject);
         hardWalls = new List<Vector2Int>();
         walls = new List<Vector2Int>();
         bushes = new List<Vector2Int>();
