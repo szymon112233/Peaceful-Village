@@ -151,22 +151,20 @@ public class NodeGrid : MonoBehaviour {
         waters = new List<Vector2Int>();
         
         GameManager.instance.gamestate = new GameState();
-        
-        
     }
 
     void GenerateRandom()
     {
         Clear();
         GenerateGrid();
-	    GeneratePlayers();
-	    GenerateEnemies();
-        walls.AddRange(GenerateRandomWalls(numberOfWallsToGenerate));
         hardWalls.AddRange(GenerateOuterWalls());
+        walls.AddRange(GenerateRandomWalls(numberOfWallsToGenerate));
         bushes.AddRange(GenerateRandomBushes(numberOfBushesToGenerate));
         waters.AddRange(GenerateRandomWater(numberOfWatersToGenerate));
-	    
-	    GameManager.instance.gamestate = new GameState(gridSize, hardWalls, walls, bushes, waters, tanks);
+        GeneratePlayers();
+        GenerateEnemies();
+
+        GameManager.instance.gamestate = new GameState(gridSize, hardWalls, walls, bushes, waters, tanks);
 	    
 	    Debug.Log(GameManager.instance.gamestate);
         
@@ -207,21 +205,15 @@ public class NodeGrid : MonoBehaviour {
         i = 0;
         for (int j = 0; j < gridSize.y; j++)
         {
-            if (MapNodes[i, j].isFree())
-            {
-                MapNodes[i, j].objectOnNode = Instantiate(environmentPrefabs[unbreakableWallSpriteIndex], MapNodes[i, j].transform);
-                walls.Add(new Vector2Int((int)MapNodes[i, j].transform.position.x, (int)MapNodes[i, j].transform.position.y));
-            }   
+            MapNodes[i, j].objectOnNode = Instantiate(environmentPrefabs[unbreakableWallSpriteIndex], MapNodes[i, j].transform);
+            walls.Add(new Vector2Int((int)MapNodes[i, j].transform.position.x, (int)MapNodes[i, j].transform.position.y));
         }
 
         i = gridSize.x - 1;
         for (int j = 0; j < gridSize.y; j++)
         {
-            if (MapNodes[i, j].isFree())
-            {
-                MapNodes[i, j].objectOnNode = Instantiate(environmentPrefabs[unbreakableWallSpriteIndex], MapNodes[i, j].transform);
-                walls.Add(new Vector2Int((int)MapNodes[i, j].transform.position.x, (int)MapNodes[i, j].transform.position.y));
-            }  
+            MapNodes[i, j].objectOnNode = Instantiate(environmentPrefabs[unbreakableWallSpriteIndex], MapNodes[i, j].transform);
+            walls.Add(new Vector2Int((int)MapNodes[i, j].transform.position.x, (int)MapNodes[i, j].transform.position.y));
         }
 
         return walls;
