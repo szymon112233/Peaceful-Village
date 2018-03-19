@@ -19,14 +19,12 @@ public class NodeGrid : MonoBehaviour {
     public MapNode[,] MapNodes = null;
     public GameObject[] environmentPrefabs = null;
 
-    public bool spawnPlayers, spawnEnemies;
-
-    public int wallSpriteIndex = 0;
-    public int unbreakableWallSpriteIndex = 0;
-    public int bushSpriteIndex = 0;
-    public int waterSpriteIndex = 0;
-    public int playerSpriteIndex = 0;
-    public int enemySpriteStartIndex = 0;
+    int wallSpriteIndex = 0;
+    int unbreakableWallSpriteIndex = 0;
+    int bushSpriteIndex = 0;
+    int waterSpriteIndex = 0;
+    int playerSpriteIndex = 0;
+    int enemySpriteStartIndex = 0;
 
     List<Vector2Int> hardWalls;
     List<Vector2Int> walls;
@@ -195,14 +193,14 @@ public class NodeGrid : MonoBehaviour {
         int i = 0;
         for (int j = 0; j< gridSize.x; j++)
         {
-            (MapNodes[j, i].objectOnNode = Instantiate(wallPrefab, MapNodes[j, i].transform)).tag = "Unbreakable";
+            MapNodes[j, i].objectOnNode = Instantiate(environmentPrefabs[unbreakableWallSpriteIndex], MapNodes[j, i].transform);
             walls.Add(new Vector2Int((int)MapNodes[j, i].transform.position.x, (int)MapNodes[j, i].transform.position.y));
         }
 
         i = gridSize.y -1;
         for (int j = 0; j < gridSize.x; j++)
         {
-            (MapNodes[j, i].objectOnNode = Instantiate(wallPrefab, MapNodes[j, i].transform)).tag = "Unbreakable";
+            MapNodes[j, i].objectOnNode = Instantiate(environmentPrefabs[unbreakableWallSpriteIndex], MapNodes[j, i].transform);
             walls.Add(new Vector2Int((int)MapNodes[j, i].transform.position.x, (int)MapNodes[j, i].transform.position.y));
         }
 
@@ -211,7 +209,7 @@ public class NodeGrid : MonoBehaviour {
         {
             if (MapNodes[i, j].isFree())
             {
-                (MapNodes[i, j].objectOnNode = Instantiate(wallPrefab, MapNodes[i, j].transform)).tag = "Unbreakable";
+                MapNodes[i, j].objectOnNode = Instantiate(environmentPrefabs[unbreakableWallSpriteIndex], MapNodes[i, j].transform);
                 walls.Add(new Vector2Int((int)MapNodes[i, j].transform.position.x, (int)MapNodes[i, j].transform.position.y));
             }   
         }
@@ -221,7 +219,7 @@ public class NodeGrid : MonoBehaviour {
         {
             if (MapNodes[i, j].isFree())
             {
-                (MapNodes[i, j].objectOnNode = Instantiate(wallPrefab, MapNodes[i, j].transform)).tag = "Unbreakable";
+                MapNodes[i, j].objectOnNode = Instantiate(environmentPrefabs[unbreakableWallSpriteIndex], MapNodes[i, j].transform);
                 walls.Add(new Vector2Int((int)MapNodes[i, j].transform.position.x, (int)MapNodes[i, j].transform.position.y));
             }  
         }
