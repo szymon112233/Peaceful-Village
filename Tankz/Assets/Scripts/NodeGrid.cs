@@ -23,6 +23,7 @@ public class NodeGrid : MonoBehaviour {
     int unbreakableWallSpriteIndex = 0;
     int bushSpriteIndex = 0;
     int waterSpriteIndex = 0;
+    int eagleSpriteIndex = 0;
     int playerSpriteIndex = 0;
     int enemySpriteStartIndex = 0;
 
@@ -30,6 +31,7 @@ public class NodeGrid : MonoBehaviour {
     List<Vector2Int> walls;
     List<Vector2Int> bushes;
     List<Vector2Int> waters;
+    List<Vector2Int> eagles;
     List<Tank> tanks;
 
     private void Awake()
@@ -52,6 +54,9 @@ public class NodeGrid : MonoBehaviour {
         waterSpriteIndex = GetSpriteIndex("Water");
         if (waterSpriteIndex == -1)
             Debug.LogError("Could not find index of waterSpriteIndex!!");
+        eagleSpriteIndex = GetSpriteIndex("Eagle");
+        if (eagleSpriteIndex == -1)
+            Debug.LogError("Could not find index of eagleSpriteIndex!!");
         playerSpriteIndex = GetSpriteIndex("Player1");
         if (playerSpriteIndex == -1)
             Debug.LogError("Could not find index of playerSpriteIndex!!");
@@ -124,6 +129,11 @@ public class NodeGrid : MonoBehaviour {
                             MapNodes[j, i].objectOnNode = Instantiate(environmentPrefabs[index], new Vector3(j * nodeSize, i * nodeSize, 1.0f), new Quaternion(), gameObject.transform);
                             waters.Add(new Vector2Int((int)MapNodes[j, i].transform.position.x, (int)MapNodes[j, i].transform.position.y));
                         }
+                        else if (index == eagleSpriteIndex)
+                        {
+                            MapNodes[j, i].objectOnNode = Instantiate(environmentPrefabs[index], new Vector3(j * nodeSize, i * nodeSize, 1.0f), new Quaternion(), gameObject.transform);
+                            eagles.Add(new Vector2Int((int)MapNodes[j, i].transform.position.x, (int)MapNodes[j, i].transform.position.y));
+                        }
                         else
                             MapNodes[j, i].objectOnNode = Instantiate(environmentPrefabs[index], new Vector3(j * nodeSize, i * nodeSize, 1.0f), new Quaternion(), gameObject.transform);
                     }
@@ -149,6 +159,7 @@ public class NodeGrid : MonoBehaviour {
         walls = new List<Vector2Int>();
         bushes = new List<Vector2Int>();
         waters = new List<Vector2Int>();
+        eagles = new List<Vector2Int>();
         
         GameManager.instance.gamestate = new GameState();
     }
@@ -157,6 +168,7 @@ public class NodeGrid : MonoBehaviour {
     {
         Clear();
         GenerateGrid();
+        eagles.AddRange(GenerateEagles());
         hardWalls.AddRange(GenerateOuterWalls());
         walls.AddRange(GenerateRandomWalls(numberOfWallsToGenerate));
         bushes.AddRange(GenerateRandomBushes(numberOfBushesToGenerate));
@@ -268,6 +280,22 @@ public class NodeGrid : MonoBehaviour {
             }     
         }
         return waters;
+    }
+
+    List<Vector2Int> GenerateEagles()
+    {
+        List<Vector2Int> eagles = new List<Vector2Int>();
+        int counter = 0;
+        while (counter <= 1)
+        {
+            int x = gridSize.x / 2;
+            int[] y = { 2, gridSize.y - 3 };
+            GameObject eagle = Instantiate(environmentPrefabs[eagleSpriteIndex], MapNodes[x, y[counter]].transform);
+            MapNodes[x, y[counter]].objectOnNode = eagle;
+            eagles.Add(new Vector2Int((int)MapNodes[x, y[counter]].transform.position.x, (int)MapNodes[x, y[counter]].transform.position.y));
+            counter++;
+        }
+        return eagles;
     }
 
     void GeneratePlayers()
