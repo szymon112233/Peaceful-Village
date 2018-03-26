@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CameraCenter : MonoBehaviour {
 
@@ -12,6 +13,16 @@ public class CameraCenter : MonoBehaviour {
     private void Awake()
     {
         mainCamera = Camera.main;
+    }
+
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     private void Start()
@@ -28,5 +39,10 @@ public class CameraCenter : MonoBehaviour {
         mainCamera.orthographicSize -= Input.mouseScrollDelta.y * scrollSpeed;
         if (mainCamera.orthographicSize < 1)
             mainCamera.orthographicSize = 1;
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        Awake();
     }
 }

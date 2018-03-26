@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -24,7 +25,6 @@ public class GameManager : MonoBehaviour
             
 		//Sets this to not be destroyed when reloading scene
 		DontDestroyOnLoad(gameObject);
-            
 	}
 
 	#endregion
@@ -34,17 +34,27 @@ public class GameManager : MonoBehaviour
 		cameraCenter = GetComponent<CameraCenter>();
 	}
 
+    [HideInInspector]
 	public GameState gamestate;
+    public GameMode gameMode = GameMode.FreeForAll;
+
 	private CameraCenter cameraCenter;
-	
+
 	// Update is called once per frame
 	void Update () {
         if (Input.GetKeyDown(KeyCode.R))
             UnityEngine.SceneManagement.SceneManager.LoadScene("test");
+        if (gameMode == GameMode.FreeForAll && gamestate.tanksList.Count == 1)
+            GameOver();
 	}
 
 	public void CenterCamera()
 	{
 		cameraCenter.CenterCamera();
-	}
+    }
+
+    public void GameOver()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene("gameover");
+    }
 }
