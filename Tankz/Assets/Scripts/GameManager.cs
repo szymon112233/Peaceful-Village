@@ -44,8 +44,6 @@ public class GameManager : MonoBehaviour
 	void Update () {
         if (Input.GetKeyDown(KeyCode.R))
             UnityEngine.SceneManagement.SceneManager.LoadScene("test");
-        if (gameMode == GameMode.FreeForAll && gamestate.tanksList.Count == 1)
-            GameOver();
 	}
 
 	public void CenterCamera()
@@ -55,6 +53,7 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene("gameover");
+        if (gameMode == GameMode.FreeForAll)
+            UnityEngine.SceneManagement.SceneManager.LoadScene("gameover");
     }
 }

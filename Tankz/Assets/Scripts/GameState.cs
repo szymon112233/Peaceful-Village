@@ -17,8 +17,10 @@ public class GameState
     [SerializeField]
     public readonly List<Vector2Int> waterList;
     [SerializeField]
+    public readonly List<Vector2Int> eagleList;
+    [SerializeField]
     public readonly List<Tank> tanksList;
-    
+
     public GameState()
     {
         mapSize = new Vector2Int(0,0);
@@ -26,17 +28,19 @@ public class GameState
         wallsList = new List<Vector2Int>();
         bushList = new List<Vector2Int>();
         waterList = new List<Vector2Int>();
+        eagleList = new List<Vector2Int>();
         tanksList = new List<Tank>();
     }
     
     public GameState(Vector2Int mapSize, List<Vector2Int> hardWallsList, List<Vector2Int> wallsList, 
-        List<Vector2Int> bushList, List<Vector2Int> waterList, List<Tank> tanksList)
+        List<Vector2Int> bushList, List<Vector2Int> waterList, List<Vector2Int> eagleList, List<Tank> tanksList)
     {
         this.mapSize = mapSize;
         this.hardWallsList = new List<Vector2Int>(hardWallsList.ToArray());
         this.wallsList = new List<Vector2Int>(wallsList.ToArray());
         this.bushList = new List<Vector2Int>(bushList.ToArray());
         this.waterList = new List<Vector2Int>(waterList.ToArray());
+        this.eagleList = new List<Vector2Int>(eagleList.ToArray());
         this.tanksList = new List<Tank>(tanksList.ToArray());
     }
 
@@ -60,13 +64,32 @@ public class GameState
             return false;
         }
     }
-    
+
+    public bool RemoveEagle(Vector2Int eagleCoords)
+    {
+        if (eagleList.Contains(eagleCoords))
+        {
+            Log("Removing a Wall!");
+            eagleList.Remove(eagleCoords);
+            if (eagleList.Count == 1)
+                GameManager.instance.GameOver();
+            return true;
+        }
+        else
+        {
+            Log("Cannot remove a Wall! Wall does not eixist in GameState!");
+            return false;
+        }
+    }
+
     public bool RemoveTank(Tank tank)
     {
         if (tanksList.Contains(tank))
         {
             Log("Removing a Tank!");
             tanksList.Remove(tank);
+            if (tanksList.Count == 1)
+                GameManager.instance.GameOver();
             return true;
         }
         else

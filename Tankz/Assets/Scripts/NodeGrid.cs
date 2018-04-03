@@ -139,7 +139,7 @@ public class NodeGrid : MonoBehaviour {
                     }
                 }
             }
-            GameManager.instance.gamestate = new GameState(gridSize, hardWalls, walls, bushes, waters, tanks);
+            GameManager.instance.gamestate = new GameState(gridSize, hardWalls, walls, bushes, waters, eagles, tanks);
 
             Debug.Log(GameManager.instance.gamestate);
             GameManager.instance.CenterCamera();
@@ -160,7 +160,11 @@ public class NodeGrid : MonoBehaviour {
         bushes = new List<Vector2Int>();
         waters = new List<Vector2Int>();
         eagles = new List<Vector2Int>();
-        
+
+        Bullet[] bullets = FindObjectsOfType<Bullet>();
+        foreach(Bullet bullet in bullets)
+            Destroy(bullet.gameObject);
+
         GameManager.instance.gamestate = new GameState();
     }
 
@@ -176,7 +180,7 @@ public class NodeGrid : MonoBehaviour {
         GeneratePlayers();
         GenerateEnemies();
 
-        GameManager.instance.gamestate = new GameState(gridSize, hardWalls, walls, bushes, waters, tanks);
+        GameManager.instance.gamestate = new GameState(gridSize, hardWalls, walls, bushes, waters, eagles, tanks);
 	    
 	    Debug.Log(GameManager.instance.gamestate);
         
