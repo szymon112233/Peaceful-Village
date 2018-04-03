@@ -7,6 +7,7 @@ TagManager:
   - Unbreakable
   - Wall
   - Water
+  - Grid
   layers:
   - Default
   - TransparentFX

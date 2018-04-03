@@ -29,17 +29,19 @@ public class GameManager : MonoBehaviour
 
 	#endregion
 
-	private void Start()
-	{
-		cameraCenter = GetComponent<CameraCenter>();
-	}
-
     [HideInInspector]
 	public GameState gamestate;
     public GameMode gameMode = GameMode.FreeForAll;
+	public NodeGrid nodeGrid = null;
 
 	private CameraCenter cameraCenter;
-
+	
+	private void Start()
+	{
+		cameraCenter = GetComponent<CameraCenter>();
+		nodeGrid = GameObject.FindGameObjectWithTag("Grid").GetComponent<NodeGrid>();
+	}
+	
 	// Update is called once per frame
 	void Update () {
         if (Input.GetKeyDown(KeyCode.R))
@@ -56,4 +58,16 @@ public class GameManager : MonoBehaviour
         if (gameMode == GameMode.FreeForAll)
             UnityEngine.SceneManagement.SceneManager.LoadScene("gameover");
     }
+
+	public void StartGame()
+	{
+		if (nodeGrid == null)
+			nodeGrid = GameObject.FindGameObjectWithTag("Grid").GetComponent<NodeGrid>();
+		
+		if (GameSetupPanel.instance.isCustomMap)
+			nodeGrid.LoadMap(GameSetupPanel.instance.selectedMap);
+		else
+			nodeGrid.GenerateRandom();
+		GameSetupPanel.instance.Show(false);
+	}
 }

@@ -1,8 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using System.IO;
+using Random = UnityEngine.Random;
 
 public class NodeGrid : MonoBehaviour {
     
@@ -76,10 +78,11 @@ public class NodeGrid : MonoBehaviour {
         return -1;
     }
 
-    public void LoadMap()
+    public void LoadMap(string path)
     {
         Clear();
-        string path = EditorUtility.OpenFilePanel("Select map file", "", "csv");
+        if (String.IsNullOrEmpty(path))
+            path = EditorUtility.OpenFilePanel("Select map file", "", "csv");
         if (File.Exists(path))
         {
             string content = File.ReadAllText(path);
@@ -168,7 +171,7 @@ public class NodeGrid : MonoBehaviour {
         GameManager.instance.gamestate = new GameState();
     }
 
-    void GenerateRandom()
+     public void GenerateRandom()
     {
         Clear();
         GenerateGrid();
@@ -188,7 +191,6 @@ public class NodeGrid : MonoBehaviour {
 	}
 	
 	void GenerateGrid()
-
     {
         MapNodes = new MapNode[gridSize.x, gridSize.y];
         for (int i = gridSize.y - 1; i >= 0; i--)
