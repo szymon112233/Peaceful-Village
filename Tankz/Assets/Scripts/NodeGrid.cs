@@ -62,7 +62,7 @@ public class NodeGrid : MonoBehaviour {
         playerSpriteIndex = GetSpriteIndex("Player1");
         if (playerSpriteIndex == -1)
             Debug.LogError("Could not find index of playerSpriteIndex!!");
-        enemySpriteStartIndex = GetSpriteIndex("Enemy");
+        enemySpriteStartIndex = GetSpriteIndexContaining("Enemy");
         if (enemySpriteStartIndex == -1)
             Debug.LogError("Could not find index of enemySpriteStartIndex!!");
     }
@@ -72,6 +72,17 @@ public class NodeGrid : MonoBehaviour {
         for (int i = 0; i < environmentPrefabs.Length; i++)
         {
             if (environmentPrefabs[i].name == name)
+                return i;
+        }
+
+        return -1;
+    }
+
+    private int GetSpriteIndexContaining(string name)
+    {
+        for (int i = 0; i < environmentPrefabs.Length; i++)
+        {
+            if (environmentPrefabs[i].name.Contains(name))
                 return i;
         }
 
