@@ -35,8 +35,26 @@ public class GameManager : MonoBehaviour
 	public NodeGrid nodeGrid = null;
 
 	private CameraCenter cameraCenter;
-	
-	private void Start()
+
+
+    public static List<string> botNames = new List<string>()
+    {
+        "markiek1",
+        "piorkows",
+        "Crash",
+        "Ranger",
+        "Phobos",
+        "Mynx",
+        "Orbb",
+        "Sarge",
+        "Bitterman",
+        "Grunt",
+        "Hossman",
+        "Daemia",
+        "Bones",
+    };
+
+    private void Start()
 	{
 		cameraCenter = GetComponent<CameraCenter>();
 		nodeGrid = GameObject.FindGameObjectWithTag("Grid").GetComponent<NodeGrid>();
