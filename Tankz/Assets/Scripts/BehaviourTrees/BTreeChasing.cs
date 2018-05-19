@@ -55,7 +55,7 @@ public class BTreeChasing : MonoBehaviour
                                 else
                                     vector = new Vector2(direction.x, 0f);
 
-                                if (Mathf.Abs(direction.x) <= 1 || Mathf.Abs(direction.y) <= 1)
+                                if (Mathf.Abs(direction.x) <= 1f || Mathf.Abs(direction.y) <= 1f)
                                 {
                                     blackboard["shouldMove"] = false;
                                     blackboard["direction"] = direction;
@@ -64,17 +64,20 @@ public class BTreeChasing : MonoBehaviour
                             })
                             { Label = "Change inputs" },
                             // Rotating
-                            new BlackboardCondition("shouldMove", Operator.IS_EQUAL, false, Stops.NONE,
-                                new Action(() =>
-                                {
-                                    Vector2 vector, direction = (Vector2)blackboard["direction"];
-                                    if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y))
-                                        vector = new Vector2(direction.x, 0f);
-                                    else
-                                        vector = new Vector2(0f, direction.y);
-                                    SetMoveVector(vector);
-                                    blackboard["shouldMove"] = true;
-                                })
+                            new Sequence(
+                                new BlackboardCondition("shouldMove", Operator.IS_EQUAL, false, Stops.SELF,
+                                    new Action(() =>
+                                    {
+                                        Vector2 vector, direction = (Vector2)blackboard["direction"];
+                                        if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y))
+                                            vector = new Vector2(direction.x, 0.0f);
+                                        else
+                                            vector = new Vector2(0.0f, direction.y);
+                                        SetMoveVector(vector);
+                                        blackboard["shouldMove"] = true;
+                                    })
+                                ),
+                                new Wait(0.3f)
                             )
                     )
           );
