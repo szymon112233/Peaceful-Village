@@ -2,17 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BFSSearcher
+public class BFSSearcher : MonoBehaviour
 {
+    public Vector2Int startCoord, destinationCoord;
+
     Tank myTank;
 
-    public BFSSearcher(Tank tank)
+    public void Start()
     {
-        myTank = tank;
+        myTank = GameManager.instance.gamestate.tanksList[0];
     }
 
-    public List<MapNode> Search(MapNode start, MapNode destination)
+    // Coord in MapNodes in Gamestate
+    public List<MapNode> Search()
     {
+        MapNode start = GameManager.instance.gamestate.mapNodes[startCoord.x, startCoord.y];
+        MapNode destination = GameManager.instance.gamestate.mapNodes[destinationCoord.x, destinationCoord.y];
         HashSet<MapNode> visited = new HashSet<MapNode>();
         Queue<MapNode> tiles_queue = new Queue<MapNode>();
 
@@ -29,7 +34,7 @@ public class BFSSearcher
                 return GetParentsPath(parents, current);
 
             List<MapNode> neighbors = new List<MapNode>(FindNeighbors(current));
-            neighbors.ForEach(x => Debug.Log("Neighbor: " + x));
+            //neighbors.ForEach(x => Debug.Log("Neighbor: " + x));
 
             foreach (var neighbor in neighbors)
             {
@@ -41,7 +46,7 @@ public class BFSSearcher
                 tiles_queue.Enqueue(neighbor);
             }
         }
-
+        
         return new List<MapNode>();
     }
 
@@ -82,6 +87,7 @@ public class BFSSearcher
             path.Add(current);
             current = (MapNode)parents[current];
         }
+        path.Reverse();
         return path;
     }
 }
