@@ -69,7 +69,7 @@ public class NodeGrid : MonoBehaviour {
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.T))
-            new BFSSearcher(tanks[0]).Search(MapNodes[1, 1], MapNodes[1, 6]).ForEach(x => Debug.Log("Node in path: " + x));
+            GetComponent<BFSSearcher>().Search().ForEach(x => Debug.Log("Node in path: " + x));
     }
 
     private int GetSpriteIndex(string name)
@@ -163,7 +163,8 @@ public class NodeGrid : MonoBehaviour {
             }
             GameManager.instance.gamestate = new GameState(gridSize, hardWalls, walls, bushes, waters, eagles, MapNodes, tanks);
 
-            Debug.Log(GameManager.instance.gamestate);
+            AdjustMapNodesForPathfinding();
+
             GameManager.instance.CenterCamera();
         }
         else
@@ -203,7 +204,7 @@ public class NodeGrid : MonoBehaviour {
         GenerateEnemies();
 
         GameManager.instance.gamestate = new GameState(gridSize, hardWalls, walls, bushes, waters, eagles, MapNodes, tanks);
-	           
+        AdjustMapNodesForPathfinding();
         GameManager.instance.CenterCamera();
 	}
 	
@@ -286,7 +287,6 @@ public class NodeGrid : MonoBehaviour {
             if (MapNodes[randomX, randomY].IsFree())
             {
                 MapNodes[randomX, randomY].objectOnNode = Instantiate(environmentPrefabs[bushSpriteIndex], MapNodes[randomX, randomY].transform);
-                MapNodes[randomX, randomY].obstacle = MapNodes[randomX, randomY].objectOnNode;
                 count--;
                 bushes.Add(new Vector2Int((int)MapNodes[randomX, randomY].transform.position.x, (int)MapNodes[randomX, randomY].transform.position.y));
             }     
@@ -367,6 +367,23 @@ public class NodeGrid : MonoBehaviour {
         MapNodes[x, y - 1].obstacle = MapNodes[x, y].objectOnNode;
         MapNodes[x + 1, y - 1].objectOnNode = MapNodes[x, y].objectOnNode;
         MapNodes[x + 1, y - 1].obstacle = MapNodes[x, y].objectOnNode;
+    }
 
+    void AdjustMapNodesForPathfinding()
+    {
+        for (int y = 1; y < gridSize.y; y++)
+        {
+            for (int x = 1; x < gridSize.x; x++)
+            {
+                if (MapNodes[x, y].obstacle != null)
+                {
+                    for (int i = x - 1; i <= x; i++)
+                        if (MapNodes[i, y - 1].obstacle == null)
+                            MapNodes[i, y - 1].obstacle = MapNodes[i, y - 1].objectOnNode = MapNodes[x, y].objectOnNode;
+                    if (MapNodes[x - 1, y].obstacle == null)
+                        MapNodes[x - 1, y].objectOnNode = MapNodes[x - 1, y].obstacle = MapNodes[x, y].objectOnNode;
+                }
+            }
+        }
     }
 }
