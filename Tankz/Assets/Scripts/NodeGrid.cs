@@ -17,7 +17,6 @@ public class NodeGrid : MonoBehaviour {
     public int numberOfWallsToGenerate = 10;
     public int numberOfBushesToGenerate = 10;
     public int numberOfWatersToGenerate = 10;
-    public int numberOfEnemiesToGenerate = 1;
     public MapNode[,] MapNodes = null;
     public GameObject[] environmentPrefabs = null;
 
@@ -317,22 +316,31 @@ public class NodeGrid : MonoBehaviour {
 
     void GeneratePlayers()
     {
-        int counter = 0;
-        while (counter <= 1)
+        int counter = 1;
+        foreach (TankEntry entry in GameSetupPanel.instance.tankEntries)
         {
-            int[] x =  { 2, gridSize.x - 2 };
-            int[] y =  { 2, gridSize.y - 2 };
-            GameObject player = Instantiate(playerPrefabs[counter], new Vector3(x[counter] * nodeSize, y[counter++] * nodeSize, 0), new Quaternion());
-            tanks.Add(player.GetComponent<Tank>());
+            if (entry.isHuman)
+            {
+                GameObject player = Instantiate(playerPrefabs[0], new Vector3(Random.Range(8, (gridSize.x - 1) * nodeSize), Random.Range(8, (gridSize.y - 1) * nodeSize), 0), new Quaternion());
+                player.GetComponent<PlayerController>().player = counter;
+                player.GetComponent<TankControllerHuman>().localPlayerNumber = counter;
+                player.GetComponent<Tank>().team = entry.teamNumber;
+                tanks.Add(player.GetComponent<Tank>());
+                counter++;
+            }
         }
     }
 
     void GenerateEnemies()
     {
-        for (int i = 0; i < numberOfEnemiesToGenerate; i++)
+        foreach (TankEntry entry in GameSetupPanel.instance.tankEntries)
         {
-            GameObject enemy = Instantiate(enemyPrefab, new Vector3(Random.Range(8,(gridSize.x - 1) * nodeSize ), Random.Range(8,(gridSize.y - 1) * nodeSize ), 0), new Quaternion());
-            tanks.Add(enemy.GetComponent<Tank>());
+            if (!entry.isHuman)
+            {
+                GameObject enemy = Instantiate(enemyPrefab, new Vector3(Random.Range(8, (gridSize.x - 1) * nodeSize), Random.Range(8, (gridSize.y - 1) * nodeSize), 0), new Quaternion());
+                enemy.GetComponent<Tank>().team = entry.teamNumber;
+                tanks.Add(enemy.GetComponent<Tank>());
+            }
         }
     }
 }

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class TankEntry : MonoBehaviour {
 
     public bool isHuman = false;
-    public uint teamNumber = 1;
+    public int teamNumber = 1;
 
     private Toggle humanTogle;
     private Dropdown teamDropdown;
@@ -36,7 +36,7 @@ public class TankEntry : MonoBehaviour {
 
     private void OnTeamDropdownChanged(int value)
     {
-        teamNumber = (uint)(value+1);
+        teamNumber = (value+1);
     }
 
     private void OnTeamNumberChanged(int value)
