@@ -23,7 +23,7 @@ public class MapNode : MonoBehaviour
 
     public bool CanMove(Tank myTank)
     {
-        return obstacle == null && !GameManager.instance.gamestate.tanksList.Any(
+        return obstacle == null;/* && !GameManager.instance.gamestate.tanksList.Any(
             tank => {
                 if (tank == myTank)
                     return false;
@@ -31,7 +31,8 @@ public class MapNode : MonoBehaviour
                 if (Mathf.Abs(vector.x) <= 12 && Mathf.Abs(vector.y) <= 12)
                     return true;
                 return false;
-            });
+            }
+        );*/
     }
 
     public override bool Equals(object other)
