@@ -66,12 +66,6 @@ public class NodeGrid : MonoBehaviour {
             Debug.LogError("Could not find index of enemySpriteStartIndex!!");
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.T))
-            GetComponent<BFSSearcher>().Search().ForEach(x => Debug.Log("Node in path: " + x));
-    }
-
     private int GetSpriteIndex(string name)
     {
         for (int i = 0; i < environmentPrefabs.Length; i++)
@@ -118,13 +112,13 @@ public class NodeGrid : MonoBehaviour {
                     {
                         if (index == playerSpriteIndex)
                         {
-                            GameObject player = Instantiate(environmentPrefabs[index], new Vector3(j * nodeSize +4, i * nodeSize - 4, 1.0f), new Quaternion(), gameObject.transform);
+                            GameObject player = Instantiate(environmentPrefabs[index], new Vector3(j * nodeSize +4, i * nodeSize - 4, 1.0f), new Quaternion());
                             player.GetComponent<TankControllerHuman>().localPlayerNumber = playerIndex++;
                             tanks.Add(player.GetComponent<Tank>());
                         }
                         else if (index >= enemySpriteStartIndex)
                         {
-                            GameObject enemy = Instantiate(environmentPrefabs[index], new Vector3(j * nodeSize + 4, i * nodeSize - 4, 1.0f), new Quaternion(), gameObject.transform);
+                            GameObject enemy = Instantiate(environmentPrefabs[index], new Vector3(j * nodeSize + 4, i * nodeSize - 4, 1.0f), new Quaternion());
                             enemy.GetComponent<Tank>().team = index - enemySpriteStartIndex;
                             tanks.Add(enemy.GetComponent<Tank>());
                         }
@@ -200,11 +194,11 @@ public class NodeGrid : MonoBehaviour {
         walls.AddRange(GenerateRandomWalls(numberOfWallsToGenerate));
         bushes.AddRange(GenerateRandomBushes(numberOfBushesToGenerate));
         waters.AddRange(GenerateRandomWater(numberOfWatersToGenerate));
+        AdjustMapNodesForPathfinding();
         GeneratePlayers();
         GenerateEnemies();
 
         GameManager.instance.gamestate = new GameState(gridSize, hardWalls, walls, bushes, waters, eagles, MapNodes, tanks);
-        AdjustMapNodesForPathfinding();
         GameManager.instance.CenterCamera();
 	}
 	
@@ -334,7 +328,10 @@ public class NodeGrid : MonoBehaviour {
         {
             if (entry.isHuman)
             {
-                GameObject player = Instantiate(playerPrefabs[0], new Vector3(Random.Range(8, (gridSize.x - 1) * nodeSize), Random.Range(8, (gridSize.y - 1) * nodeSize), 0), new Quaternion());
+                MapNode randomNode = RandomFreeNode();
+                if (randomNode == null)
+                    return;
+                GameObject player = Instantiate(playerPrefabs[0], randomNode.transform.position, new Quaternion());
                 player.GetComponent<PlayerController>().player = counter;
                 player.GetComponent<TankControllerHuman>().localPlayerNumber = counter;
                 player.GetComponent<Tank>().team = entry.teamNumber;
@@ -350,7 +347,10 @@ public class NodeGrid : MonoBehaviour {
         {
             if (!entry.isHuman)
             {
-                GameObject enemy = Instantiate(enemyPrefab, new Vector3(Random.Range(8, (gridSize.x - 1) * nodeSize), Random.Range(8, (gridSize.y - 1) * nodeSize), 0), new Quaternion());
+                MapNode randomNode = RandomFreeNode();
+                if (randomNode == null)
+                    return;
+                GameObject enemy = Instantiate(enemyPrefab, randomNode.transform.position, new Quaternion());
                 enemy.GetComponent<Tank>().team = entry.teamNumber;
                 tanks.Add(enemy.GetComponent<Tank>());
             }
@@ -385,5 +385,19 @@ public class NodeGrid : MonoBehaviour {
                 }
             }
         }
+    }
+
+    MapNode RandomFreeNode()
+    {
+        int counter = 0;
+        while (counter < gridSize.x * gridSize.y)
+        {
+            int x = Random.Range(0, gridSize.x - 1);
+            int y = Random.Range(0, gridSize.y - 1);
+            if (MapNodes[x, y].IsFree())
+                return MapNodes[x, y];
+            counter++;
+        }
+        return null;
     }
 }
