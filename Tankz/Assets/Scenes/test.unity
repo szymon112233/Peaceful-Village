@@ -1273,7 +1273,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1615443507}
   - component: {fileID: 1615443506}
-  - component: {fileID: 1615443508}
   m_Layer: 0
   m_Name: GridGenerator
   m_TagString: Grid
@@ -1296,7 +1295,7 @@ MonoBehaviour:
   nodeSize: 8
   nodePrefab: {fileID: 1608868066767240, guid: d31b839d04c893c46be246880f00427a, type: 2}
   wallPrefab: {fileID: 1798603701170206, guid: a4f5734ba78a06e4ab7356e755f5258e, type: 2}
-  enemyPrefab: {fileID: 1737528639124548, guid: c5633adf4fcfc7e4ca5fcf37629ece80,
+  enemyPrefab: {fileID: 1737528639124548, guid: 0428b1cf1dfd099488d045c0aed00818,
     type: 2}
   playerPrefabs:
   - {fileID: 1737528639124548, guid: 0d701e54634f1924b8842ef0dff72c75, type: 2}
@@ -1312,7 +1311,7 @@ MonoBehaviour:
   - {fileID: 1798603701170206, guid: ffd9502efa38c794aa8adeb9e6a58ed6, type: 2}
   - {fileID: 1009915263865676, guid: 48196405367ccf14e8c2f41c020d7f0f, type: 2}
   - {fileID: 1737528639124548, guid: 0d701e54634f1924b8842ef0dff72c75, type: 2}
-  - {fileID: 1737528639124548, guid: c5633adf4fcfc7e4ca5fcf37629ece80, type: 2}
+  - {fileID: 1737528639124548, guid: 0428b1cf1dfd099488d045c0aed00818, type: 2}
 --- !u!4 &1615443507
 Transform:
   m_ObjectHideFlags: 0
@@ -1326,19 +1325,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1615443508
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1615443505}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df7a52c2da0e4fa45ba5567a967d98b6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startCoord: {x: 0, y: 0}
-  destinationCoord: {x: 0, y: 0}
 --- !u!1 &1697141887
 GameObject:
   m_ObjectHideFlags: 0
