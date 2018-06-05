@@ -12,6 +12,16 @@ public class Tank : MonoBehaviour
     [Header("Speed in pixels per second")]
     public float speed = 16;
 
+    public MapNode Node
+    {
+        get
+        {
+            int x = (int)transform.position.x / 8;
+            int y = (int)transform.position.y / 8;
+            return GameManager.instance.gamestate.mapNodes[x, y];
+        }
+    }
+
     private void OnDestroy()
     {
         GameManager.instance.gamestate.RemoveTank(this);

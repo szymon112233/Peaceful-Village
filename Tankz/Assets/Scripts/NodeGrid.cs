@@ -112,39 +112,42 @@ public class NodeGrid : MonoBehaviour {
                     {
                         if (index == playerSpriteIndex)
                         {
-                            GameObject player = Instantiate(environmentPrefabs[index], new Vector3(j * nodeSize +4, i * nodeSize - 4, 1.0f), new Quaternion(), gameObject.transform);
+                            GameObject player = Instantiate(environmentPrefabs[index], new Vector3(j * nodeSize +4, i * nodeSize - 4, 1.0f), new Quaternion());
                             player.GetComponent<TankControllerHuman>().localPlayerNumber = playerIndex++;
                             tanks.Add(player.GetComponent<Tank>());
                         }
                         else if (index >= enemySpriteStartIndex)
                         {
-                            GameObject enemy = Instantiate(environmentPrefabs[index], new Vector3(j * nodeSize + 4, i * nodeSize - 4, 1.0f), new Quaternion(), gameObject.transform);
+                            GameObject enemy = Instantiate(environmentPrefabs[index], new Vector3(j * nodeSize + 4, i * nodeSize - 4, 1.0f), new Quaternion());
                             enemy.GetComponent<Tank>().team = index - enemySpriteStartIndex;
                             tanks.Add(enemy.GetComponent<Tank>());
                         }
                         else if (index == unbreakableWallSpriteIndex)
                         {
-                            MapNodes[j, i].objectOnNode = Instantiate(environmentPrefabs[index], new Vector3(j * nodeSize, i * nodeSize, 1.0f), new Quaternion(), gameObject.transform);
+                            MapNodes[j, i].objectOnNode = Instantiate(environmentPrefabs[index], new Vector3(j * nodeSize, i * nodeSize, 1.0f), new Quaternion(), MapNodes[j, i].transform);
+                            MapNodes[j, i].obstacle = MapNodes[j, i].objectOnNode;
                             hardWalls.Add(new Vector2Int((int)MapNodes[j, i].transform.position.x, (int)MapNodes[j, i].transform.position.y));
                         }
                         else if (index == wallSpriteIndex)
                         {
-                            MapNodes[j, i].objectOnNode = Instantiate(environmentPrefabs[index], new Vector3(j * nodeSize, i * nodeSize, 1.0f), new Quaternion(), gameObject.transform);
+                            MapNodes[j, i].objectOnNode = Instantiate(environmentPrefabs[index], new Vector3(j * nodeSize, i * nodeSize, 1.0f), new Quaternion(), MapNodes[j, i].transform);
+                            MapNodes[j, i].obstacle = MapNodes[j, i].objectOnNode;
                             walls.Add(new Vector2Int((int)MapNodes[j, i].transform.position.x, (int)MapNodes[j, i].transform.position.y));
                         }
                         else if (index == bushSpriteIndex)
                         {
-                            MapNodes[j, i].objectOnNode = Instantiate(environmentPrefabs[index], new Vector3(j * nodeSize, i * nodeSize, 1.0f), new Quaternion(), gameObject.transform);
+                            MapNodes[j, i].objectOnNode = Instantiate(environmentPrefabs[index], new Vector3(j * nodeSize, i * nodeSize, 1.0f), new Quaternion(), MapNodes[j, i].transform);
                             bushes.Add(new Vector2Int((int)MapNodes[j, i].transform.position.x, (int)MapNodes[j, i].transform.position.y));
                         }
                         else if (index == waterSpriteIndex)
                         {
-                            MapNodes[j, i].objectOnNode = Instantiate(environmentPrefabs[index], new Vector3(j * nodeSize, i * nodeSize, 1.0f), new Quaternion(), gameObject.transform);
+                            MapNodes[j, i].objectOnNode = Instantiate(environmentPrefabs[index], new Vector3(j * nodeSize, i * nodeSize, 1.0f), new Quaternion(), MapNodes[j, i].transform);
+                            MapNodes[j, i].obstacle = MapNodes[j, i].objectOnNode;
                             waters.Add(new Vector2Int((int)MapNodes[j, i].transform.position.x, (int)MapNodes[j, i].transform.position.y));
                         }
                         else if (index == eagleSpriteIndex)
                         {
-                            MapNodes[j, i].objectOnNode = Instantiate(environmentPrefabs[index], new Vector3(j * nodeSize + 4, i * nodeSize - 4, 1.0f), new Quaternion(), gameObject.transform);
+                            SpawnEagle(environmentPrefabs[index], j, i);
                             eagles.Add(new Vector2Int((int)MapNodes[j, i].transform.position.x, (int)MapNodes[j, i].transform.position.y));
                         }
                         else
@@ -152,9 +155,10 @@ public class NodeGrid : MonoBehaviour {
                     }
                 }
             }
-            GameManager.instance.gamestate = new GameState(gridSize, hardWalls, walls, bushes, waters, eagles, tanks);
+            GameManager.instance.gamestate = new GameState(gridSize, hardWalls, walls, bushes, waters, eagles, MapNodes, tanks);
 
-            Debug.Log(GameManager.instance.gamestate);
+            AdjustMapNodesForPathfinding();
+
             GameManager.instance.CenterCamera();
         }
         else
@@ -190,13 +194,11 @@ public class NodeGrid : MonoBehaviour {
         walls.AddRange(GenerateRandomWalls(numberOfWallsToGenerate));
         bushes.AddRange(GenerateRandomBushes(numberOfBushesToGenerate));
         waters.AddRange(GenerateRandomWater(numberOfWatersToGenerate));
+        AdjustMapNodesForPathfinding();
         GeneratePlayers();
         GenerateEnemies();
 
-        GameManager.instance.gamestate = new GameState(gridSize, hardWalls, walls, bushes, waters, eagles, tanks);
-	    
-	    Debug.Log(GameManager.instance.gamestate);
-        
+        GameManager.instance.gamestate = new GameState(gridSize, hardWalls, walls, bushes, waters, eagles, MapNodes, tanks);
         GameManager.instance.CenterCamera();
 	}
 	
@@ -220,6 +222,7 @@ public class NodeGrid : MonoBehaviour {
         for (int j = 0; j< gridSize.x; j++)
         {
             MapNodes[j, i].objectOnNode = Instantiate(environmentPrefabs[unbreakableWallSpriteIndex], MapNodes[j, i].transform);
+            MapNodes[j, i].obstacle = MapNodes[j, i].objectOnNode;
             walls.Add(new Vector2Int((int)MapNodes[j, i].transform.position.x, (int)MapNodes[j, i].transform.position.y));
         }
 
@@ -227,6 +230,7 @@ public class NodeGrid : MonoBehaviour {
         for (int j = 0; j < gridSize.x; j++)
         {
             MapNodes[j, i].objectOnNode = Instantiate(environmentPrefabs[unbreakableWallSpriteIndex], MapNodes[j, i].transform);
+            MapNodes[j, i].obstacle = MapNodes[j, i].objectOnNode;
             walls.Add(new Vector2Int((int)MapNodes[j, i].transform.position.x, (int)MapNodes[j, i].transform.position.y));
         }
 
@@ -234,6 +238,7 @@ public class NodeGrid : MonoBehaviour {
         for (int j = 0; j < gridSize.y; j++)
         {
             MapNodes[i, j].objectOnNode = Instantiate(environmentPrefabs[unbreakableWallSpriteIndex], MapNodes[i, j].transform);
+            MapNodes[i, j].obstacle = MapNodes[i, j].objectOnNode;
             walls.Add(new Vector2Int((int)MapNodes[i, j].transform.position.x, (int)MapNodes[i, j].transform.position.y));
         }
 
@@ -241,6 +246,7 @@ public class NodeGrid : MonoBehaviour {
         for (int j = 0; j < gridSize.y; j++)
         {
             MapNodes[i, j].objectOnNode = Instantiate(environmentPrefabs[unbreakableWallSpriteIndex], MapNodes[i, j].transform);
+            MapNodes[i, j].obstacle = MapNodes[i, j].objectOnNode;
             walls.Add(new Vector2Int((int)MapNodes[i, j].transform.position.x, (int)MapNodes[i, j].transform.position.y));
         }
 
@@ -254,9 +260,10 @@ public class NodeGrid : MonoBehaviour {
         {
             int randomX = Random.Range(0, gridSize.x);
             int randomY = Random.Range(0, gridSize.y);
-            if (MapNodes[randomX, randomY].isFree())
+            if (MapNodes[randomX, randomY].IsFree())
             {
                 MapNodes[randomX, randomY].objectOnNode = Instantiate(wallPrefab, MapNodes[randomX, randomY].transform);
+                MapNodes[randomX, randomY].obstacle = MapNodes[randomX, randomY].objectOnNode;
                 count--;
                 walls.Add(new Vector2Int((int)MapNodes[randomX, randomY].transform.position.x, (int)MapNodes[randomX, randomY].transform.position.y));
             }     
@@ -271,7 +278,7 @@ public class NodeGrid : MonoBehaviour {
         {
             int randomX = Random.Range(0, gridSize.x);
             int randomY = Random.Range(0, gridSize.y);
-            if (MapNodes[randomX, randomY].isFree())
+            if (MapNodes[randomX, randomY].IsFree())
             {
                 MapNodes[randomX, randomY].objectOnNode = Instantiate(environmentPrefabs[bushSpriteIndex], MapNodes[randomX, randomY].transform);
                 count--;
@@ -288,9 +295,10 @@ public class NodeGrid : MonoBehaviour {
         {
             int randomX = Random.Range(0, gridSize.x);
             int randomY = Random.Range(0, gridSize.y);
-            if (MapNodes[randomX, randomY].isFree())
+            if (MapNodes[randomX, randomY].IsFree())
             {
                 MapNodes[randomX, randomY].objectOnNode = Instantiate(environmentPrefabs[waterSpriteIndex], MapNodes[randomX, randomY].transform);
+                MapNodes[randomX, randomY].obstacle = MapNodes[randomX, randomY].objectOnNode;
                 count--;
                 waters.Add(new Vector2Int((int)MapNodes[randomX, randomY].transform.position.x, (int)MapNodes[randomX, randomY].transform.position.y));
             }     
@@ -305,9 +313,8 @@ public class NodeGrid : MonoBehaviour {
         while (counter <= 1)
         {
             int x = gridSize.x / 2;
-            int[] y = { 2, gridSize.y - 3 };
-            GameObject eagle = Instantiate(environmentPrefabs[eagleSpriteIndex], MapNodes[x, y[counter]].transform);
-            MapNodes[x, y[counter]].objectOnNode = eagle;
+            int[] y = { 2, gridSize.y - 2 };
+            SpawnEagle(environmentPrefabs[eagleSpriteIndex], x, y[counter]);
             eagles.Add(new Vector2Int((int)MapNodes[x, y[counter]].transform.position.x, (int)MapNodes[x, y[counter]].transform.position.y));
             counter++;
         }
@@ -321,7 +328,10 @@ public class NodeGrid : MonoBehaviour {
         {
             if (entry.isHuman)
             {
-                GameObject player = Instantiate(playerPrefabs[0], new Vector3(Random.Range(8, (gridSize.x - 1) * nodeSize), Random.Range(8, (gridSize.y - 1) * nodeSize), 0), new Quaternion());
+                MapNode randomNode = RandomFreeNode();
+                if (randomNode == null)
+                    return;
+                GameObject player = Instantiate(playerPrefabs[0], randomNode.transform.position, new Quaternion());
                 player.GetComponent<PlayerController>().player = counter;
                 player.GetComponent<TankControllerHuman>().localPlayerNumber = counter;
                 player.GetComponent<Tank>().team = entry.teamNumber;
@@ -337,10 +347,57 @@ public class NodeGrid : MonoBehaviour {
         {
             if (!entry.isHuman)
             {
-                GameObject enemy = Instantiate(enemyPrefab, new Vector3(Random.Range(8, (gridSize.x - 1) * nodeSize), Random.Range(8, (gridSize.y - 1) * nodeSize), 0), new Quaternion());
+                MapNode randomNode = RandomFreeNode();
+                if (randomNode == null)
+                    return;
+                GameObject enemy = Instantiate(enemyPrefab, randomNode.transform.position, new Quaternion());
                 enemy.GetComponent<Tank>().team = entry.teamNumber;
                 tanks.Add(enemy.GetComponent<Tank>());
             }
         }
+    }
+
+    void SpawnEagle(GameObject eagle, int x, int y)
+    {
+        MapNodes[x, y].objectOnNode = Instantiate(eagle, new Vector3(x * nodeSize + 4, y * nodeSize - 4, 1.0f), new Quaternion(), MapNodes[x, y].transform);
+        MapNodes[x, y].obstacle = MapNodes[x, y].objectOnNode;
+        MapNodes[x + 1, y].objectOnNode = MapNodes[x, y].objectOnNode;
+        MapNodes[x + 1, y].obstacle = MapNodes[x, y].objectOnNode;
+        MapNodes[x, y - 1].objectOnNode = MapNodes[x, y].objectOnNode;
+        MapNodes[x, y - 1].obstacle = MapNodes[x, y].objectOnNode;
+        MapNodes[x + 1, y - 1].objectOnNode = MapNodes[x, y].objectOnNode;
+        MapNodes[x + 1, y - 1].obstacle = MapNodes[x, y].objectOnNode;
+    }
+
+    void AdjustMapNodesForPathfinding()
+    {
+        for (int y = 1; y < gridSize.y; y++)
+        {
+            for (int x = 1; x < gridSize.x; x++)
+            {
+                if (MapNodes[x, y].obstacle != null)
+                {
+                    for (int i = x - 1; i <= x; i++)
+                        if (MapNodes[i, y - 1].obstacle == null)
+                            MapNodes[i, y - 1].obstacle = MapNodes[i, y - 1].objectOnNode = MapNodes[x, y].objectOnNode;
+                    if (MapNodes[x - 1, y].obstacle == null)
+                        MapNodes[x - 1, y].objectOnNode = MapNodes[x - 1, y].obstacle = MapNodes[x, y].objectOnNode;
+                }
+            }
+        }
+    }
+
+    MapNode RandomFreeNode()
+    {
+        int counter = 0;
+        while (counter < gridSize.x * gridSize.y)
+        {
+            int x = Random.Range(0, gridSize.x - 1);
+            int y = Random.Range(0, gridSize.y - 1);
+            if (MapNodes[x, y].IsFree())
+                return MapNodes[x, y];
+            counter++;
+        }
+        return null;
     }
 }

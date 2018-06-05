@@ -18,6 +18,7 @@ public class GameState
     public readonly List<Vector2Int> waterList;
     [SerializeField]
     public readonly List<Vector2Int> eagleList;
+    public readonly MapNode[,] mapNodes;
     [SerializeField]
     public readonly List<Tank> tanksList;
 
@@ -33,7 +34,7 @@ public class GameState
     }
     
     public GameState(Vector2Int mapSize, List<Vector2Int> hardWallsList, List<Vector2Int> wallsList, 
-        List<Vector2Int> bushList, List<Vector2Int> waterList, List<Vector2Int> eagleList, List<Tank> tanksList)
+        List<Vector2Int> bushList, List<Vector2Int> waterList, List<Vector2Int> eagleList, MapNode[,] mapNodes, List<Tank> tanksList)
     {
         this.mapSize = mapSize;
         this.hardWallsList = new List<Vector2Int>(hardWallsList.ToArray());
@@ -41,6 +42,7 @@ public class GameState
         this.bushList = new List<Vector2Int>(bushList.ToArray());
         this.waterList = new List<Vector2Int>(waterList.ToArray());
         this.eagleList = new List<Vector2Int>(eagleList.ToArray());
+        this.mapNodes = mapNodes;
         this.tanksList = new List<Tank>(tanksList.ToArray());
     }
 
