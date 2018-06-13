@@ -43,7 +43,7 @@ GameObject:
   m_Layer: 0
   m_Name: BulletPoint
   m_TagString: Untagged
-  m_Icon: {fileID: -1577725955494882426, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -144,7 +144,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: 2
   controller: {fileID: 114293157051327634}
-  fireRate: 0.3
+  fireRate: 0.5
   bulletPrefab: {fileID: 1676994771348698, guid: 45d538f147b95004faffff87fe2aebed,
     type: 2}
 --- !u!114 &114992953060149788
@@ -159,6 +159,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletPoint: {fileID: 4397862554193348}
+  team: 0
   speed: 64
 --- !u!212 &212547862372451790
 SpriteRenderer:
@@ -173,6 +174,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
