@@ -2,17 +2,27 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class BFSSearch
+public class BFSSearcher : MonoBehaviour
 {
-    public static List<Vector3> Search(Tank tank, MapNode destNode)
+    [Header("Should it ignore destroyable walls?")]
+    public bool ignoreDestroyableWalls;
+
+    Tank myTankComponent;
+
+    public void Start()
+    {
+        myTankComponent = GetComponent<Tank>();
+    }
+
+    public List<MapNode> Search(MapNode destNode)
     {
         HashSet<MapNode> visited = new HashSet<MapNode>();
         Queue<MapNode> tiles_queue = new Queue<MapNode>();
 
         Hashtable parents = new Hashtable();
 
-        visited.Add(tank.Node);
-        tiles_queue.Enqueue(tank.Node);
+        visited.Add(myTankComponent.Node);
+        tiles_queue.Enqueue(myTankComponent.Node);
 
         while (tiles_queue.Count > 0)
         {
@@ -21,7 +31,7 @@ public static class BFSSearch
             if (current.Equals(destNode))
                 return GetParentsPath(parents, current);
 
-            List<MapNode> neighbors = new List<MapNode>(FindNeighbors(tank, current));
+            List<MapNode> neighbors = new List<MapNode>(FindNeighbors(myTankComponent, current));
 
             foreach (var neighbor in neighbors)
             {
@@ -34,10 +44,10 @@ public static class BFSSearch
             }
         }
         
-        return new List<Vector3>();
+        return new List<MapNode>();
     }
 
-    static List<MapNode> FindNeighbors(Tank tank, MapNode mapNode)
+    List<MapNode> FindNeighbors(Tank tank, MapNode mapNode)
     {
         MapNode[,] mapNodes = GameManager.instance.gamestate.mapNodes;
         List<MapNode> neighbors = new List<MapNode>();
@@ -56,7 +66,7 @@ public static class BFSSearch
                 coordinate.y > 0 && coordinate.y < GameManager.instance.gamestate.mapSize.y)
             {
                 neighbor = mapNodes[coordinate.x, coordinate.y];
-                if (neighbor.CanMove(tank))
+                if (neighbor.CanMove(ignoreDestroyableWalls))
                     neighbors.Add(neighbor);
             }
         }
@@ -64,21 +74,17 @@ public static class BFSSearch
         return neighbors;
     }
 
-    static List<Vector3> GetParentsPath(Hashtable parents, MapNode from)
+    List<MapNode> GetParentsPath(Hashtable parents, MapNode from)
     {
-        List<MapNode> nodePath = new List<MapNode>();
-        List<Vector3> path = new List<Vector3>();
+        List<MapNode> path = new List<MapNode>();
 
         MapNode current = from;
         while (parents.ContainsKey(current))
         {
-            nodePath.Add(current);
+            path.Add(current);
             current = (MapNode)parents[current];
         }
-        nodePath.Reverse();
-
-        foreach (MapNode node in nodePath)
-            path.Add(new Vector3(node.transform.position.x + 4f, node.transform.position.y + 4f, 0f));
+        path.Reverse();
         
         return path;
     }

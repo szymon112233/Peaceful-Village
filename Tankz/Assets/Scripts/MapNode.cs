@@ -21,8 +21,10 @@ public class MapNode : MonoBehaviour
         return objectOnNode == null;
     }
 
-    public bool CanMove(Tank myTank)
+    public bool CanMove(bool ignoreWall)
     {
+        if (ignoreWall && obstacle != null)
+            return objectOnNode.CompareTag("Wall");
         return obstacle == null;/* && !GameManager.instance.gamestate.tanksList.Any(
             tank => {
                 if (tank == myTank)

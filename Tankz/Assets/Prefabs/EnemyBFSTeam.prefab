@@ -26,9 +26,9 @@ GameObject:
   - component: {fileID: 61898579150295850}
   - component: {fileID: 50424957295635310}
   - component: {fileID: 114701029072559136}
-  - component: {fileID: 114748816058149336}
+  - component: {fileID: 114435060313219902}
   m_Layer: 0
-  m_Name: EnemyBFS
+  m_Name: EnemyBFSTeam
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -121,6 +121,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 15.5, y: 15.5}
   m_EdgeRadius: 0
+--- !u!114 &114435060313219902
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1737528639124548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25055c11776395b4fac73786f3d227dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controller: {fileID: 0}
 --- !u!114 &114669956642370994
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -144,18 +156,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ignoreDestroyableWalls: 1
---- !u!114 &114748816058149336
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1737528639124548}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1da24a7b3fa778943bb5886a389eb31d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  controller: {fileID: 114669956642370994}
 --- !u!114 &114888122333988818
 MonoBehaviour:
   m_ObjectHideFlags: 1

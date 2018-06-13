@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using NPBehave;
 using System.Collections.Generic;
+using System.Linq;
 
-public class BTreeBFS : MonoBehaviour
+public class BTreeBFSTeam : MonoBehaviour
 {
     public TankControllerBTree controller;
 
@@ -46,13 +47,17 @@ public class BTreeBFS : MonoBehaviour
                     //new BlackboardCondition("isTarget", Operator.IS_EQUAL, false, Stops.SELF,
                     new Action(() =>
                     {
-                        if (GameManager.instance.gamestate.tanksList[0] != myTankComponent)
-                            target = GameManager.instance.gamestate.tanksList[0];
-                        else
-                            target = GameManager.instance.gamestate.tanksList[1];
-
-
                         foreach (Tank tank in GameManager.instance.gamestate.tanksList)
+                        {
+                            if (tank.team != myTankComponent.team)
+                            {
+                                target = tank;
+                                break;
+                            }
+                        }
+
+
+                        foreach (Tank tank in GameManager.instance.gamestate.tanksList.Where(x => x.team != myTankComponent.team))
                             if (tank != myTankComponent)
                                 if ((tank.transform.position - transform.position).sqrMagnitude
                                 < (target.transform.position - transform.position).sqrMagnitude)
