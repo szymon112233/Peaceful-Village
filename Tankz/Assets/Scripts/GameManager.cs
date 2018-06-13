@@ -59,12 +59,19 @@ public class GameManager : MonoBehaviour
 		cameraCenter = GetComponent<CameraCenter>();
 		nodeGrid = GameObject.FindGameObjectWithTag("Grid").GetComponent<NodeGrid>();
 	}
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update()
+    {
         if (Input.GetKeyDown(KeyCode.R))
             UnityEngine.SceneManagement.SceneManager.LoadScene("test");
-	}
+        if (gameMode == GameMode.TeamDeathMatch && gamestate.tanksList.Count > 0)
+        {
+            int team = gamestate.tanksList[0].team;
+            if (gamestate.tanksList.TrueForAll(x => x.team == team))
+                GameOver();
+        }
+    }
 
 	public void CenterCamera()
 	{
@@ -73,16 +80,17 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
-        if (gameMode == GameMode.FreeForAll)
-            UnityEngine.SceneManagement.SceneManager.LoadScene("gameover");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("gameover");
     }
 
 	public void StartGame()
 	{
-		if (nodeGrid == null)
-			nodeGrid = GameObject.FindGameObjectWithTag("Grid").GetComponent<NodeGrid>();
-		
-		if (GameSetupPanel.instance.isCustomMap)
+        if (nodeGrid == null)
+            nodeGrid = GameObject.FindGameObjectWithTag("Grid").GetComponent<NodeGrid>();
+
+        gameMode = GameSetupPanel.instance.SelectedGameMode;
+
+        if (GameSetupPanel.instance.isCustomMap)
 			nodeGrid.LoadMap(GameSetupPanel.instance.selectedMap);
 		else
 			nodeGrid.GenerateRandom();

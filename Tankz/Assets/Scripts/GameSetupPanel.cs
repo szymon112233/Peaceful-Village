@@ -47,6 +47,16 @@ public class GameSetupPanel : MonoBehaviour
 
     public GameObject EmptyTankEntryPrefab;
 
+    public Dropdown gameModeSelection;
+
+    public GameMode SelectedGameMode
+    {
+        get
+        {
+            return (GameMode)gameModeSelection.value;
+        }
+    }
+
     private int teamsNumber = 2;
 
 

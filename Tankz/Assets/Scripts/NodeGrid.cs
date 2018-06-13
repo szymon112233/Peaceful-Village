@@ -114,13 +114,17 @@ public class NodeGrid : MonoBehaviour {
                         {
                             GameObject player = Instantiate(environmentPrefabs[index], new Vector3(j * nodeSize +4, i * nodeSize - 4, 1.0f), new Quaternion());
                             player.GetComponent<TankControllerHuman>().localPlayerNumber = playerIndex++;
-                            tanks.Add(player.GetComponent<Tank>());
+                            Tank tankComponent = player.GetComponent<Tank>();
+                            tankComponent.team = 1;
+                            tanks.Add(tankComponent);
                         }
                         else if (index >= enemySpriteStartIndex)
                         {
                             GameObject enemy = Instantiate(environmentPrefabs[index], new Vector3(j * nodeSize + 4, i * nodeSize - 4, 1.0f), new Quaternion());
                             enemy.GetComponent<Tank>().team = index - enemySpriteStartIndex;
-                            tanks.Add(enemy.GetComponent<Tank>());
+                            Tank tankComponent = enemy.GetComponent<Tank>();
+                            tankComponent.team = index - enemySpriteStartIndex;
+                            tanks.Add(tankComponent);
                         }
                         else if (index == unbreakableWallSpriteIndex)
                         {

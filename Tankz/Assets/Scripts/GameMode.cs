@@ -1,4 +1,4 @@
 ﻿public enum GameMode
 {
-    FreeForAll, DestroyBase
+    FreeForAll, TeamDeathMatch
 }
